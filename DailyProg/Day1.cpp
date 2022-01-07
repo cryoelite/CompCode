@@ -5,7 +5,7 @@
 Problem 1: Maximum sub - array sum
 To find the largest possible sum of a sequence of consecutive values in the array
 */
-int main()
+int day1()
 {
 	using namespace std;
 	vector<int> arr{ {-1,2,4,-3,5,2,-5,2} };
