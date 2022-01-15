@@ -29,26 +29,24 @@ void func1(EasyBench& eb, vector<int> arr) {
 	}
 	cout << endl;
 }
+void merge(vector<int>& arr, int start, int end, int split) {}
 
-void divide(int size,int index, vector<int> &arr) {
-	if (size > 1)
-	{
-		auto newSize{ (int)size / 2 };
-		divide(newSize,index, arr);
-		divide(newSize-size,index+newSize, arr);
-	}
-
+void mergeSort(vector<int> &arr, int startIndex, int endIndex) {
+	if (startIndex >= endIndex)
+		return;
+	auto splitSize{ (int)((startIndex + endIndex) / 2) };
+	cout << "Startindex: " << startIndex << "EndIndex: " << endIndex << "Split: " << splitSize << endl;
+	mergeSort(arr, startIndex, splitSize);
+	mergeSort(arr, splitSize, endIndex);
+	merge(arr, startIndex, endIndex, splitSize);
+	
 }
 
-void merge(vector<int>& arr) {}
 
 //O(nlogn): Merge sort
 void func2(EasyBench& eb, vector<int> arr) {
 	eb.startTimer();
-	auto splitSize{ (int)arr.size()/2 };
-	divide(splitSize,0, arr);
-	divide(arr.size() - splitSize,splitSize, arr);
-	merge(arr);
+	mergeSort(arr, 0, arr.size()-1 );
 	eb.showresult();
 	cout << "Array is: ";
 	for (auto& elem : arr) {
@@ -78,5 +76,6 @@ int main() {
 		alg++;
 	}
 elx:
+	
 	return 0;
 }
