@@ -22,7 +22,4 @@ int day1()
 
 	cout << best << "\n";
 	return 0;
-
-
 }
-

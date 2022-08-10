@@ -22,9 +22,36 @@
     <ClCompile Include="Day1.cpp" />
     <ClCompile Include="Day2.cpp" />
     <ClCompile Include="EasyBench.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="count_global_inversions_and_local_inversions.h" />
+    <ClInclude Include="count_inversions_array.h" />
     <ClInclude Include="EasyBench.h" />
+    <ClInclude Include="find_duplicates_in_array.h" />
+    <ClInclude Include="goodString.h" />
+    <ClInclude Include="grid_unique_paths.h" />
+    <ClInclude Include="majority_element.h" />
+    <ClInclude Include="majority_element_2.h" />
+    <ClInclude Include="matrix_zero.h" />
+    <ClInclude Include="max_subarray_sum.h" />
+    <ClInclude Include="merge_2_sorted_array_no_extra_space.h" />
+    <ClInclude Include="merge_intervals.h" />
+    <ClInclude Include="merge_sort.h" />
+    <ClInclude Include="missing_number.h" />
+    <ClInclude Include="next_permutation_custom.h" />
+    <ClInclude Include="pascal_triangle.h" />
+    <ClInclude Include="power_x_n.h" />
+    <ClInclude Include="remove_duplicates_from_array.h" />
+    <ClInclude Include="repeating_and_missing_number.h" />
+    <ClInclude Include="reverse_pair.h" />
+    <ClInclude Include="reverse_words_in_string.h" />
+    <ClInclude Include="rotate_array.h" />
+    <ClInclude Include="rotate_image.h" />
+    <ClInclude Include="search_2d_matrix.h" />
+    <ClInclude Include="sort_0_1_2.h" />
+    <ClInclude Include="stock_buy_and_sell.h" />
+    <ClInclude Include="Temp_solution.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -124,6 +151,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

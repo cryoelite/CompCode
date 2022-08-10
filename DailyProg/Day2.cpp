@@ -9,7 +9,6 @@ using namespace std;
 
 //On^2 algs: Bubble sort
 void func1(EasyBench& eb, vector<int> arr) {
-
 	eb.startTimer();
 	//Bubble sort
 	for (auto index{ 0 }; index < arr.size(); ++index) {
@@ -31,7 +30,7 @@ void func1(EasyBench& eb, vector<int> arr) {
 }
 void merge(vector<int>& arr, int start, int end, int split) {}
 
-void mergeSort(vector<int> &arr, int startIndex, int endIndex) {
+void mergeSort(vector<int>& arr, int startIndex, int endIndex) {
 	if (startIndex >= endIndex)
 		return;
 	auto splitSize{ (int)((startIndex + endIndex) / 2) };
@@ -39,43 +38,16 @@ void mergeSort(vector<int> &arr, int startIndex, int endIndex) {
 	mergeSort(arr, startIndex, splitSize);
 	mergeSort(arr, splitSize, endIndex);
 	merge(arr, startIndex, endIndex, splitSize);
-	
 }
-
 
 //O(nlogn): Merge sort
 void func2(EasyBench& eb, vector<int> arr) {
 	eb.startTimer();
-	mergeSort(arr, 0, arr.size()-1 );
+	mergeSort(arr, 0, arr.size() - 1);
 	eb.showresult();
 	cout << "Array is: ";
 	for (auto& elem : arr) {
 		cout << elem << " ";
 	}
 	cout << endl;
-
-}
-
-
-
-int main() {
-	vector<int> arr{ 1,3,8,2,9,2,5,6};
-	auto easyBench{ EasyBench() };
-
-	auto alg{ 0 };
-	while (true) {
-		switch (alg) {
-		case 0: func1(easyBench, arr);
-			break;
-		case 1: func2(easyBench, arr);
-			break;
-		default: goto elx;
-
-		}
-
-		alg++;
-	}
-elx:
-	
-	return 0;
 }

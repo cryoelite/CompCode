@@ -24,9 +24,90 @@
     <ClCompile Include="EasyBench.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EasyBench.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rotate_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="remove_duplicates_from_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_zero.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pascal_triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="max_subarray_sum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sort_0_1_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stock_buy_and_sell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rotate_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="merge_intervals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reverse_words_in_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="merge_2_sorted_array_no_extra_space.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="find_duplicates_in_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="missing_number.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repeating_and_missing_number.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="merge_sort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="count_inversions_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="count_global_inversions_and_local_inversions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="search_2d_matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="power_x_n.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="majority_element.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="majority_element_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grid_unique_paths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reverse_pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="goodString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Temp_solution.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="next_permutation_custom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
