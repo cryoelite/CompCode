@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -25,12 +25,15 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classic_knapsack.h" />
+    <ClInclude Include="coin_problem.h" />
     <ClInclude Include="count_global_inversions_and_local_inversions.h" />
     <ClInclude Include="count_inversions_array.h" />
     <ClInclude Include="EasyBench.h" />
     <ClInclude Include="find_duplicates_in_array.h" />
     <ClInclude Include="goodString.h" />
     <ClInclude Include="grid_unique_paths.h" />
+    <ClInclude Include="knapsack_variant_polo_penguin.h" />
     <ClInclude Include="majority_element.h" />
     <ClInclude Include="majority_element_2.h" />
     <ClInclude Include="matrix_zero.h" />
@@ -38,6 +41,7 @@
     <ClInclude Include="merge_2_sorted_array_no_extra_space.h" />
     <ClInclude Include="merge_intervals.h" />
     <ClInclude Include="merge_sort.h" />
+    <ClInclude Include="minimum_sum_path.h" />
     <ClInclude Include="missing_number.h" />
     <ClInclude Include="next_permutation_custom.h" />
     <ClInclude Include="pascal_triangle.h" />
@@ -52,6 +56,7 @@
     <ClInclude Include="sort_0_1_2.h" />
     <ClInclude Include="stock_buy_and_sell.h" />
     <ClInclude Include="Temp_solution.h" />
+    <ClInclude Include="weird_algorithm.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

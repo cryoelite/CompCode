@@ -110,5 +110,14 @@
     <ClInclude Include="next_permutation_custom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="weird_algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coin_problem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="minimum_sum_path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
