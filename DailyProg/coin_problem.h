@@ -12,8 +12,7 @@ public:
 
 		for (auto i{ 1 }; i <= amount; ++i) {
 			for (auto& c : coins) {
-
-				if (i - c >= 0 && values.at(i - c)  != -1) {
+				if (i - c >= 0 && values.at(i - c) != -1) {
 					best = min(best, values.at(i - c) + 1);
 				}
 			}

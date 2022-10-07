@@ -119,5 +119,14 @@
     <ClInclude Include="minimum_sum_path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="classic_knapsack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="knapsack_variant_polo_penguin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="minimum_money.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -23,14 +23,12 @@ private:
 		goodStringSolver(result, N, Q, S, vector<int>(arr.begin() + 1, arr.end()), ranges);
 	}
 
-
 	bool checkRanges(vector<vector<int>>& ranges, string& s) {
 		bool result{
 			all_of(ranges.begin(),ranges.end(), [&s](vector<int> elem) {
 				auto tempString{string(s.begin() + elem.at(0) - 1, s.begin() + elem.at(1))};
 				auto setString{unordered_set<char>()};
 				for (auto& character : tempString) {
-
 					if (character != '_' && setString.find(character) != setString.end())
 					{
 						return false;
@@ -44,7 +42,5 @@ private:
 		};
 
 		return result;
-
 	}
-
 };

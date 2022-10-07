@@ -41,6 +41,7 @@
     <ClInclude Include="merge_2_sorted_array_no_extra_space.h" />
     <ClInclude Include="merge_intervals.h" />
     <ClInclude Include="merge_sort.h" />
+    <ClInclude Include="minimum_money.h" />
     <ClInclude Include="minimum_sum_path.h" />
     <ClInclude Include="missing_number.h" />
     <ClInclude Include="next_permutation_custom.h" />

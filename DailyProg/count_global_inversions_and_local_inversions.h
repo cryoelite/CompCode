@@ -37,19 +37,17 @@ private:
 		auto tempMid{ mid++ };
 		auto index{ 0 };
 		while (start <= tempMid && mid <= end) {
-
 			if (array.at(start) < array.at(mid)) {
 				tempVec.at(index++) = array.at(start++);
 			}
 			else {
 				globalCounter += mid - start - (mid - tempMid - 1);
-				if (origArray.at(start) > origArray.at(mid) && mid-start==1)
+				if (origArray.at(start) > origArray.at(mid) && mid - start == 1)
 				{
 					localCounter++;
 				}
 				tempVec.at(index++) = array.at(mid++);
 			}
-
 		}
 
 		while (start <= tempMid) {

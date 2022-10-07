@@ -5,18 +5,13 @@
 
 using namespace std;
 class Solution {
-
 public:
 
-
-
 	int getInput() {
-
 		int inp{};
 		cin >> inp;
 		cin.ignore(cin.rdbuf()->in_avail());
 		return inp;
-
 	}
 
 	void solve(long long num, stringstream& outp) {
@@ -34,12 +29,6 @@ public:
 				num = (num * 3) + 1;
 
 			solve(num, outp);
-
 		}
-
 	}
-
-
-
-
 };

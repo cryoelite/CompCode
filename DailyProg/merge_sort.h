@@ -7,8 +7,6 @@ class Solution {
 public:
 	void mergeSort(vector<int>& array) {
 		sort(0, array.size() - 1, array);
-		
-
 	}
 private:
 	void sort(int start, int end, vector<int>& array) {

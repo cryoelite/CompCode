@@ -13,9 +13,7 @@ public:
 		//creating an initialized matrix
 		auto vecMatrix{ vm(m, vector<int>(n,-1)) };
 
-
 		return traverseDP(--m, --n, 0, 0, vecMatrix);
-
 	}
 
 	int uniquePaths2(int m, int n) {
@@ -26,9 +24,7 @@ public:
 		//	vecMatrix.at(i).assign(n, -1);
 		//}
 		//return traverseDP(--m, --n, 0, 0, vecMatrix);
-
 	}
-
 
 private:
 	//recursive exponential time solution
@@ -60,13 +56,11 @@ private:
 			return vecMatrix.at(cm).at(cn);
 		}
 		else {
-
 			int res1{ traverseDP(m, n, cm + 1, cn, vecMatrix) };
 			int res2{ traverseDP(m, n, cm, cn + 1, vecMatrix) };
 
-			vecMatrix.at(cm).at(cn) = res1+res2;
+			vecMatrix.at(cm).at(cn) = res1 + res2;
 			return res1 + res2;
-
 		}
 	}
 };

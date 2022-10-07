@@ -53,12 +53,10 @@ public:
 				else
 					secondValue = &nums2.at(secondIndex - m);
 
-
 				if (*secondValue < *firstValue)
 				{
 					swap(*firstValue, *secondValue);
 				}
-
 
 				++firstIndex;
 				++secondIndex;
@@ -92,17 +90,14 @@ public:
 				else
 					secondValue = &nums2.at(secondIndex - m);
 
-
 				if (*secondValue < *firstValue)
 				{
 					swap(*firstValue, *secondValue);
 				}
 
-
 				++firstIndex;
 				++secondIndex;
 			}
-
 
 			gap /= 2;
 		}

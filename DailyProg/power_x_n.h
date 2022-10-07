@@ -72,7 +72,6 @@ public:
 		}
 		return ans;
 	}
-
 };
 /*
 temp = (z ? x) where z an be 0 or 1, z operation x returns 1 for z=1 and x for z=0.

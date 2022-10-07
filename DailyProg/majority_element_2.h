@@ -1,7 +1,6 @@
 #pragma once
 //https://leetcode.com/problems/majority-element-ii/
 
-
 #include<vector>
 #include<math.h>
 using namespace std;
@@ -26,7 +25,6 @@ public:
 		auto numVec{ vector<int>() };
 		auto elemOne{ Element(-1,0) };
 		auto elemTwo{ Element(-1,0) };
-
 
 		for (auto& element : nums)
 		{
@@ -68,7 +66,5 @@ public:
 			numVec.push_back(elemTwo.value);
 
 		return numVec;
-
 	}
 };
-

@@ -5,7 +5,6 @@
 #include<algorithm>
 #include <cmath>
 
-
 using namespace std;
 class Solution {
 public:
@@ -28,31 +27,26 @@ public:
 
 	//nCr approach
 	vector<vector<int>> generate2(int numRows) {
-			auto outputVec{ vector<vector<int>>(numRows) };
-			auto n{ 0 };
-			auto r{ 0 };
+		auto outputVec{ vector<vector<int>>(numRows) };
+		auto n{ 0 };
+		auto r{ 0 };
 
-
-			auto generator{ [&n,&r]() mutable -> int {
-
-
-				auto value{round(exp(lgamma(n + 1) - (lgamma(r + 1) + lgamma(n - r + 1))))};
-				//auto value{tgamma(n + 1) / (tgamma(r + 1) * tgamma(n - r + 1))};
-				//auto value{round(1 / ((n + 1) * beta(n - r + 1,r + 1)))};
-				if (r < n)
-					++r;
-				else {
-					r = 0;
-					++n;
-					}
-				return value;
-			} };
-			for (size_t x{ 0 }; x < outputVec.size(); ++x) {
-				outputVec.at(x) = vector<int>(n + 1);
-				std::generate(outputVec.at(x).begin(), outputVec.at(x).end(), generator);
-
-			}
-			return outputVec;
-
+		auto generator{ [&n,&r]() mutable -> int {
+			auto value{round(exp(lgamma(n + 1) - (lgamma(r + 1) + lgamma(n - r + 1))))};
+			//auto value{tgamma(n + 1) / (tgamma(r + 1) * tgamma(n - r + 1))};
+			//auto value{round(1 / ((n + 1) * beta(n - r + 1,r + 1)))};
+			if (r < n)
+				++r;
+			else {
+				r = 0;
+				++n;
+				}
+			return value;
+		} };
+		for (size_t x{ 0 }; x < outputVec.size(); ++x) {
+			outputVec.at(x) = vector<int>(n + 1);
+			std::generate(outputVec.at(x).begin(), outputVec.at(x).end(), generator);
 		}
+		return outputVec;
+	}
 };

@@ -26,8 +26,8 @@ public:
 	}
 	//Unknown how to do it.One more method is by comparing the sum of array to the sum of numbers from 1 to N using AP, the difference giving us the repeating no. Time O(N) and space O(1) but only detects 1 duplicate.
 	//And another method is by using a hash set, which stores the numbers and then we check if the no. already exists. Time O(N) but space O(N)
-	
-	//[1:N] 
+
+	//[1:N]
 	int findDuplicate2(vector<int>& nums) {
 		auto trackerIt{ nums.begin() };
 		auto beginIt{ nums.begin() };
