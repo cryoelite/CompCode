@@ -32,7 +32,6 @@ private:
 		freopen_s(&inpStream, "../input.txt", "r", stdin);
 		freopen_s(&outStream, "../output.txt", "w", stdout);
 
-
 #endif
 		auto testCases{ 0 };
 		//cin >> testCases;
@@ -43,11 +42,7 @@ private:
 			ll nQueries{ 0 };
 			INPUT(nValues, nQueries);
 
-
 			//We can simply use only the biTree, but for subtraction, we need the origional array.
-
-
-
 
 			/*
 			//There are 2 ways to generate the biTree, first is to directly create a biTree by input and update
@@ -62,8 +57,6 @@ private:
 
 				arr.at(i)=(temp);
 				update(i, temp, biTree, nValues);
-
-
 			}*/
 
 			auto arr{ vector<ll>() };
@@ -71,7 +64,6 @@ private:
 			arr.emplace(arr.begin(), 0);
 			auto biTree{ vector<ll>(arr.begin(), arr.end()) };
 			generateBiTree(biTree, nValues);
-
 
 			while (nQueries-- > 0)
 			{
@@ -87,18 +79,9 @@ private:
 				}
 				else if (query == 2)
 					cout << range_sum(secondArg, biTree) - range_sum(firstArg - 1, biTree) << "\n";
-
-
-
-
 			}
-
-			
 		}
 	}
-
-	
-
 
 	void generateBiTree(vector<ll>& biTree, ll nSize) {
 		ll p{ 0 };
@@ -125,10 +108,4 @@ private:
 			pos += pos & -pos;
 		}
 	}
-
-
-
-
 };
-
-
