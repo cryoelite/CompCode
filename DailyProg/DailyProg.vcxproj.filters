@@ -128,5 +128,11 @@
     <ClInclude Include="minimum_money.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sparse_table_rmq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BIT_Dynamic_range_sum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

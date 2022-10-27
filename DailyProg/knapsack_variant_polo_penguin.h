@@ -11,23 +11,20 @@ int maxPoints(vector<vector<int>>& questions, int& minutes, int& n) {
 	}
 	auto tempValue{ 0 };
 	auto tempMinute{ 0 };
-	auto valueArray{ vector<int>(maxMinutes +1,-1) };
+	auto valueArray{ vector<int>(maxMinutes + 1,-1) };
 	valueArray.at(0) = 0;
 	for (int i{ 0 }; i < n; ++i) {
 		tempValue = (questions.at(i).at(0) * (questions.at(i).at(1)));
 		tempMinute = (questions.at(i).at(2));
 		for (int j{ maxMinutes - tempMinute }; j >= 0; --j) {
-				valueArray.at(j + tempMinute) = max(valueArray.at(j) + tempValue, tempValue);
+			valueArray.at(j + tempMinute) = max(valueArray.at(j) + tempValue, tempValue);
 		}
 	}
-
 
 	return valueArray.at(minutes);
 }
 
-
 int smain() {
-	
 	//freopen_s("../../input.txt", "r", stdin);
 
 	//freopen("../output.txt", "w", stdout);
@@ -51,12 +48,7 @@ int smain() {
 
 		cout << maxPoints(vec, minutes, n);
 		cout << "\n";
-
-
 	}
 
-
-
 	return 0;
-
 }
