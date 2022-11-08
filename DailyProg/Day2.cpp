@@ -41,13 +41,13 @@ void mergeSort(vector<int>& arr, int startIndex, int endIndex) {
 }
 
 //O(nlogn): Merge sort
-void func2(EasyBench& eb, vector<int> arr) {
-	eb.startTimer();
-	mergeSort(arr, 0, arr.size() - 1);
-	eb.showresult();
-	cout << "Array is: ";
-	for (auto& elem : arr) {
-		cout << elem << " ";
-	}
-	cout << endl;
-}
+//void func2(EasyBench& eb, vector<int> arr) {
+//	eb.startTimer();
+//	mergeSort(arr, 0, arr.size() - 1);
+//	eb.showresult();
+//	cout << "Array is: ";
+//	for (auto& elem : arr) {
+//		cout << elem << " ";
+//	}
+//	cout << endl;
+//}

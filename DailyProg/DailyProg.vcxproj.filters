@@ -134,5 +134,24 @@
     <ClInclude Include="BIT_Dynamic_range_sum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tree_diameter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tree_ancestor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lowest_common_ancestor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="distinct_colors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="finding_a_centroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\input.txt" />
+    <Text Include="..\output.txt" />
   </ItemGroup>
 </Project>

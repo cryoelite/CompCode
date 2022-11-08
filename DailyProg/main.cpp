@@ -1,7 +1,10 @@
 #include<vector>
 #include<iostream>
 
-#include "BIT_Dynamic_range_sum.h"
+#include "EasyBench.h"
+#include "finding_a_centroid.h"
+#undef int
+
 using namespace std;
 int main() {
 	//auto vec{ vector<vector<int>>({vector<int>({7,2}),vector<int>({0,10}),vector<int>({5,0}),vector<int>({4,1}), vector<int>({5,8}), vector<int>({5,9}) }) };
@@ -10,7 +13,10 @@ int main() {
 //	auto soln{ Solution(vec)};
 //
 //	cout << soln.rmq(1,1) << endl;
+	auto eb{ EasyBench() };
+	eb.startTimer();
 	Solution();
+	eb.showresult();
 
 	return 0;
 }

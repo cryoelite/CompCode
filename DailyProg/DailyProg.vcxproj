@@ -30,11 +30,14 @@
     <ClInclude Include="coin_problem.h" />
     <ClInclude Include="count_global_inversions_and_local_inversions.h" />
     <ClInclude Include="count_inversions_array.h" />
+    <ClInclude Include="distinct_colors.h" />
     <ClInclude Include="EasyBench.h" />
+    <ClInclude Include="finding_a_centroid.h" />
     <ClInclude Include="find_duplicates_in_array.h" />
     <ClInclude Include="goodString.h" />
     <ClInclude Include="grid_unique_paths.h" />
     <ClInclude Include="knapsack_variant_polo_penguin.h" />
+    <ClInclude Include="lowest_common_ancestor.h" />
     <ClInclude Include="majority_element.h" />
     <ClInclude Include="majority_element_2.h" />
     <ClInclude Include="matrix_zero.h" />
@@ -59,7 +62,13 @@
     <ClInclude Include="sparse_table_rmq.h" />
     <ClInclude Include="stock_buy_and_sell.h" />
     <ClInclude Include="Temp_solution.h" />
+    <ClInclude Include="tree_ancestor.h" />
+    <ClInclude Include="tree_diameter.h" />
     <ClInclude Include="weird_algorithm.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\input.txt" />
+    <Text Include="..\output.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -160,11 +169,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StackReserveSize>268435456</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -175,12 +185,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StackReserveSize>268435456</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
