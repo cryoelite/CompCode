@@ -1,6 +1,6 @@
 ##ignore input/output file
-**/input.txt
-**/output.txt
+input.txt
+output.txt
 
 
 
