@@ -2,7 +2,7 @@
 #include<iostream>
 
 #include "EasyBench.h"
-#include "finding_a_centroid.h"
+#include "giant_pizza.h"
 #undef int
 
 using namespace std;

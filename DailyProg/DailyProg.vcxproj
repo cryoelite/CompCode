@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Day1.cpp" />
-    <ClCompile Include="Day2.cpp" />
     <ClCompile Include="EasyBench.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -34,10 +32,13 @@
     <ClInclude Include="EasyBench.h" />
     <ClInclude Include="finding_a_centroid.h" />
     <ClInclude Include="find_duplicates_in_array.h" />
+    <ClInclude Include="giant_pizza.h" />
     <ClInclude Include="goodString.h" />
     <ClInclude Include="grid_unique_paths.h" />
+    <ClInclude Include="HLD.h" />
     <ClInclude Include="knapsack_variant_polo_penguin.h" />
     <ClInclude Include="lowest_common_ancestor.h" />
+    <ClInclude Include="lowest_common_ancestor_euler_tour.h" />
     <ClInclude Include="majority_element.h" />
     <ClInclude Include="majority_element_2.h" />
     <ClInclude Include="matrix_zero.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="missing_number.h" />
     <ClInclude Include="next_permutation_custom.h" />
     <ClInclude Include="pascal_triangle.h" />
+    <ClInclude Include="planets_and_kingdoms.h" />
     <ClInclude Include="power_x_n.h" />
     <ClInclude Include="remove_duplicates_from_array.h" />
     <ClInclude Include="repeating_and_missing_number.h" />
@@ -61,6 +63,7 @@
     <ClInclude Include="sort_0_1_2.h" />
     <ClInclude Include="sparse_table_rmq.h" />
     <ClInclude Include="stock_buy_and_sell.h" />
+    <ClInclude Include="TempBoard.h" />
     <ClInclude Include="Temp_solution.h" />
     <ClInclude Include="tree_ancestor.h" />
     <ClInclude Include="tree_diameter.h" />

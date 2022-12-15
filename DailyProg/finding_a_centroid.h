@@ -32,7 +32,6 @@ using vecMap = vector<map1>;
 using bVec = vector<bool>;
 
 class Solution {
-
 public:
 	Solution() {
 		start();
@@ -77,7 +76,6 @@ private:
 			dfs(start, prev, adj, centroids, subSize, nodes);
 
 			for (auto& elem : centroids) {
-
 				cout << elem << " ";
 			}
 			cout << endl;
@@ -85,7 +83,6 @@ private:
 	}
 
 	void dfs(int& start, int& prev, vec& adj, vec2& centroids, vec2& subSize, int& nodes) {
-		
 		for (auto& elem : adj.at(start))
 		{
 			if (elem == prev) continue;
@@ -93,7 +90,6 @@ private:
 			dfs(elem, start, adj, centroids, subSize, nodes);
 
 			subSize.at(start) += subSize.at(elem);
-
 		}
 
 		if (subSize.at(start) > cast(floor(nodes / 2)))
@@ -101,8 +97,5 @@ private:
 			centroids.push_back(start);
 			subSize.at(prev) -= subSize.at(start);
 		}
-			
-
 	}
-
 };

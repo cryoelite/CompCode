@@ -43,7 +43,7 @@ private:
 			INPUT(nodes, queries);
 
 			//1-indexed
-			auto ancestors{ vec(LOG(nodes)+1, vec2(nodes+1)) };
+			auto ancestors{ vec(LOG(nodes) + 1, vec2(nodes + 1)) };
 
 			for (auto i{ 2 }; i <= nodes; ++i)
 			{
@@ -53,7 +53,6 @@ private:
 				ancestors.at(0).at(i) = firstArg;
 			}
 
-
 			initializeAncestors(ancestors, nodes);
 
 			while (queries-- > 0)
@@ -62,9 +61,9 @@ private:
 				auto secondArg{ 0 };
 				INPUT(firstArg, secondArg);
 				auto ans{ firstArg };
-				auto temp{0};
+				auto temp{ 0 };
 				while (secondArg > 0) {
-					if (secondArg & 1) ans= ancestors.at(temp).at(ans);
+					if (secondArg & 1) ans = ancestors.at(temp).at(ans);
 					temp++;
 					secondArg >>= 1;
 				}
@@ -75,16 +74,11 @@ private:
 	}
 
 	void initializeAncestors(vec& ancestors, int& nodes) {
-
 		for (auto i{ 1 }; i < ancestors.size(); ++i)
 		{
 			for (auto j{ 1 }; j <= nodes; ++j) {
-				
 				ancestors.at(i).at(j) = ancestors.at(i - 1).at(ancestors.at(i - 1).at(j));
-			
 			}
 		}
-
 	}
-
 };

@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Day1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Day2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EasyBench.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -147,6 +141,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="finding_a_centroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HLD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lowest_common_ancestor_euler_tour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TempBoard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="planets_and_kingdoms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="giant_pizza.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
