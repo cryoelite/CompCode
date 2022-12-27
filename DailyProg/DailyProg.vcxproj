@@ -52,6 +52,7 @@
     <ClInclude Include="next_permutation_custom.h" />
     <ClInclude Include="pascal_triangle.h" />
     <ClInclude Include="planets_and_kingdoms.h" />
+    <ClInclude Include="power_set.h" />
     <ClInclude Include="power_x_n.h" />
     <ClInclude Include="remove_duplicates_from_array.h" />
     <ClInclude Include="repeating_and_missing_number.h" />
@@ -67,6 +68,8 @@
     <ClInclude Include="Temp_solution.h" />
     <ClInclude Include="tree_ancestor.h" />
     <ClInclude Include="tree_diameter.h" />
+    <ClInclude Include="hierholzer.h" />
+    <ClInclude Include="valid_arrangement_pair.h" />
     <ClInclude Include="weird_algorithm.h" />
   </ItemGroup>
   <ItemGroup>

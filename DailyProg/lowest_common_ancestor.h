@@ -24,7 +24,6 @@ void OUTPUT(T&... args) { ((cout << args << " "), ...); cout << "\n"; }
 using vec = vector<vector<int>>;
 using vec2 = vector<int>;
 
-
 class Solution {
 public:
 	Solution() {

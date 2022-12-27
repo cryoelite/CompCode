@@ -1,4 +1,5 @@
 #pragma once
+//https://leetcode.com/problems/valid-arrangement-of-pairs/
 
 #define LOCAL
 #pragma region HEADERS
@@ -39,7 +40,6 @@ using vvpii = vector<vector<pii>>;
 using mii = map<int, int>;
 using vmii = vector<mii>;
 using vb = vector<bool>;
-using vvb = vector<vb>;
 using ri = revit<vi::iterator>;
 using si = sk<int>;
 #pragma endregion
@@ -47,11 +47,11 @@ using si = sk<int>;
 class Solution {
 	int testCases = 1;
 	int edges = 0;
-	int nodes = 0;
 	int startNode;
 	vpii el; //edgelist
 	vb visited;
-	vi degree;
+	vi indegree;
+	vi outdegree;
 	vvpii adj; //adjacency list which also contains edge id for each edge
 	vi path;
 	si st;
@@ -75,10 +75,11 @@ private:
 
 		while (testCases-- > 0)
 		{
-			INPUT(nodes, edges);
+			INPUT(edges);
 			visited = vb(edges + 1, false); //is the edge visited
-			degree = vi(nodes + 1, 0);
-			adj = vvpii(nodes + 1, vpii());
+			indegree = vi(200005, 0);
+			outdegree = vi(200005, 0);
+			adj = vvpii(200005, vpii());
 			path = vi();
 			st = si();
 			startNode = 0;
@@ -102,51 +103,28 @@ private:
 		for (int i{ 1 }; i <= edges; ++i) {
 			pii elem{ el[i] };
 			adj[elem.first].pb(pii(elem.second, i));
-			adj[elem.second].pb(pii(elem.first, i));
 
-			degree[elem.first] += 1;
-			degree[elem.second] += 1;
-
-			//if (degree[elem.first] % 2 != 0)
-			//	startNode = elem.first;
-			//else if (degree[elem.second] % 2 != 0)
-			//	startNode = elem.second; incorrect, as a node with the odd degree may appear earlier than a node that gets its degree made even later. Do this in a consequent loop.
+			outdegree[elem.first] += 1;
+			indegree[elem.second] += 1;
 		}
-		int oddCounter{ 0 };
-		int zeroDeg{ 0 };
-		for (int i{ 1 }; i <= nodes; ++i)
-		{
-			if (degree[i] % 2 != 0)
-				++oddCounter;
-			else if (degree[i] == 0)
-				++zeroDeg;
-		}
+		startNode = el[0].first; //default node, in case of EC only this will be taken.
+		for (int i{ 1 }; i <= edges; ++i) {
+			pii elem{ el[i] };
 
-		//if ((oddCounter != 0 && oddCounter != 2) || zeroDeg != 0) //Decide if EP/EC exists. Use for EP/EC
-		//{
-		//	cout << "IMPOSSIBLE" << endl;
-		//	return;
-		//}
-		if (oddCounter != 0) //EC only
-		{
-			cout << "IMPOSSIBLE" << endl;
-			return;
+			if (outdegree[elem.first] != indegree[elem.first] && outdegree[elem.first] > indegree[elem.first]) //In case of EP take this node.
+				startNode = elem.first;
+			//else if (outdegree[elem.second] != indegree[elem.second] && outdegree[elem.second] > indegree[elem.second]) //an edge always goes from first to second in a directed graph, so the above is sufficient.
+			//	startNode = elem.second;
 		}
 
 		traverse();
-
-		if (path.size() != edges + 1) {
-			cout << "IMPOSSIBLE" << endl;
-			return;
-			//specific to problem
-		}
 
 		output();
 	}
 
 	void traverse() {
-		//st.push(startNode); //use this for EP
-		st.push(1);
+		st.push(startNode);
+
 		while (!st.empty()) {
 			int elem = st.top();
 			bool isLast{ true };

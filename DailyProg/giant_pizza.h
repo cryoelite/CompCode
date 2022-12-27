@@ -41,9 +41,6 @@ using ri = revit<vi::iterator>;
 
 #pragma endregion
 
-
-
-
 class Solution {
 	int testCases = 1;
 	int nodes = 0;
@@ -109,7 +106,6 @@ private:
 				b = arg3 == '+' ? arg4 : toppings + arg4;
 				notb = arg3 == '+' ? toppings + arg4 : arg4;
 
-
 				adjForward.at(nota).push_back(b);
 				adjForward.at(notb).push_back(a);
 
@@ -128,7 +124,7 @@ private:
 			dfs1(i);
 		//phase 2
 		int counter{ 1 };
-		for (auto elem{ processedNodes.rbegin()  }; elem != processedNodes.rend(); ++elem)
+		for (auto elem{ processedNodes.rbegin() }; elem != processedNodes.rend(); ++elem)
 		{
 			int x{ *elem };
 			if (!visitedP2.at(x))
@@ -145,7 +141,6 @@ private:
 			}
 			result.at(i) = (scc.at(i) > scc.at(i + toppings));
 		}
-
 
 		output();
 	}
@@ -176,11 +171,7 @@ private:
 
 		for (int elem : adjReverse.at(current))
 			dfs2(elem, counter);
-
 	}
-
-
-
 };
 
 #ifndef LOCAL

@@ -158,6 +158,15 @@
     <ClInclude Include="giant_pizza.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hierholzer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="valid_arrangement_pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="power_set.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\input.txt" />
