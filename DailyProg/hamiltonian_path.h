@@ -1,4 +1,5 @@
 #pragma once
+//https://cses.fi/problemset/task/1693
 
 #define LOCAL
 #pragma region HEADERS
@@ -48,6 +49,7 @@ using si = sk<int>;
 using CD = complex<double>;
 using CI = complex<int>;
 
+const int mod10{ 1000000007 };
 
 #pragma endregion
 
@@ -55,18 +57,15 @@ class Solution {
 	int testCases = 1;
 	int edges = 0;
 	int nodes = 0;
-	int startNode;
-	vpii el; //edgelist
-	vb visited;
-	vi degree;
-	vvpii adj; //adjacency list which also contains edge id for each edge
-	vi path;
-	si st;
+	vvi adjM; //matrix, keeps count of edges from node a to b
+	vvi radj; //reverse-adjacency list
+	vi bitNodes; //bit representation of nodes
+	vvi states; //each node and power set of set of nodes for it
+	vvi nodeSet; //all nodes in a given set
 
 public:
 	Solution() {
 		setup();
-
 	}
 private:
 	void setup() {
@@ -84,108 +83,71 @@ private:
 		while (testCases-- > 0)
 		{
 			INPUT(nodes, edges);
-			visited = vb(edges + 1, false); //is the edge visited
-			degree = vi(nodes + 1, 0);
-			adj = vvpii(nodes + 1, vpii());
-			path = vi();
-			st = si();
-			startNode = 0;
-			//1-indexed
-			el = vpii(edges + 1);
+
+			//0-indexed
+			adjM = vvi(nodes, vi(nodes, 0));
+			radj = vvi(nodes, vi());
+			bitNodes = vi(nodes + 1);               //nodes+1 because p[0] will be 1 so it is 1-indexed
+			states = vvi(nodes, vi(1ll << nodes));
+			nodeSet = vvi(1ll << nodes, vi());
 
 			for (int i{ 1 }; i <= edges; ++i) {
 				int arg1{};
 				int arg2{};
 				INPUT(arg1, arg2);
+				--arg1;
+				--arg2;
 
-				el[i] = pii(arg1, arg2);
+				adjM[arg1][arg2]++;
 			}
 
 			start();
 		}
 	}
 
-	//Hierholzer's Algorithm
 	void start() {
-		for (int i{ 1 }; i <= edges; ++i) {
-			pii elem{ el[i] };
-			adj[elem.first].pb(pii(elem.second, i));
-			adj[elem.second].pb(pii(elem.first, i));
+		for (int i{ 0 }; i <= nodes; ++i)
+			bitNodes[i] = (1ll << i);
 
-			degree[elem.first] += 1;
-			degree[elem.second] += 1;
+		states[0][1] = 1;
+		//1 path from 0 to 1
 
-			//if (degree[elem.first] % 2 != 0)
-			//	startNode = elem.first;
-			//else if (degree[elem.second] % 2 != 0)
-			//	startNode = elem.second; incorrect, as a node with the odd degree may appear earlier than a node that gets its degree made even later. Do this in a consequent loop.
-		}
-		int oddCounter{ 0 };
-		int zeroDeg{ 0 };
-		for (int i{ 1 }; i <= nodes; ++i)
+		for (int i{ 0 }; i < nodes; ++i)
 		{
-			if (degree[i] % 2 != 0)
-				++oddCounter;
-			else if (degree[i] == 0)
-				++zeroDeg;
+			for (int j{ 0 }; j < nodes; ++j)
+			{
+				if (i != j && adjM[j][i] > 0)						//if there is a path from j to i, then radj[i] will have j inserted, as many times as the no. of paths from j to i
+					for (int k{ 0 }; k < adjM[j][i]; ++k)
+						radj[i].pb(j);
+			}
 		}
 
-		//if ((oddCounter != 0 && oddCounter != 2) || zeroDeg != 0) //Decide if EP/EC exists. Use for EP/EC
-		//{
-		//	cout << "IMPOSSIBLE" << endl;
-		//	return;
-		//}
-		if (oddCounter != 0) //EC only
+		for (int i{ 1 }; i < bitNodes[nodes]; ++i)    //bitNodes[nodes] because 1ll<<nodes would be a needless calculation
 		{
-			cout << "IMPOSSIBLE" << endl;
-			return;
+			for (int j{ 1 }; j < nodes; ++j)
+			{
+				if (i & bitNodes[j])				//if node j is in the set i, i is a set because it is a bit representation of all sets of nodes.
+					nodeSet[i].pb(j);				//nodeSet[i] is the list of all nodes in the power set i.
+			}
 		}
 
-		traverse();
-
-		if (path.size() != edges + 1) {
-			cout << "IMPOSSIBLE" << endl;
-			return;
-			//specific to problem
+		for (int i{ 1 }; i < bitNodes[nodes]; ++i)
+		{
+			for (int j : nodeSet[i]) {
+				int nodeEx{ i ^ (bitNodes[j]) };   //nodeEx is a bit representation/set of all nodes that i represents except the node j
+				for (int k : radj[j])
+				{
+					states[j][i] += states[k][nodeEx];
+				}
+				states[j][i] %= mod10;
+			}
 		}
 
 		output();
 	}
 
-	void traverse() {
-		//st.push(startNode); //use this for EP
-		st.push(1);
-		while (!st.empty()) {
-			int elem = st.top();
-			bool isLast{ true };
-			while (!adj[elem].empty())
-			{
-				int nextElem{ adj[elem].back().first };
-				int i{ adj[elem].back().second };
-
-				adj[elem].pop_back();
-
-				if (!visited[i])
-				{
-					st.push(nextElem);
-					visited[i] = true;
-					isLast = false;
-					break;
-				}
-			}
-
-			if (isLast)
-			{
-				path.pb(elem);
-				st.pop();
-			}
-		}
-	}
-
 	void output() {
-		for (int elem : path)
-			cout << elem << " ";
-		cout << endl;
+		cout << states[nodes - 1][bitNodes[nodes] - 1] << endl;
 	}
 };
 

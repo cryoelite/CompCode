@@ -64,11 +64,14 @@
     <ClInclude Include="sort_0_1_2.h" />
     <ClInclude Include="sparse_table_rmq.h" />
     <ClInclude Include="stock_buy_and_sell.h" />
+    <ClInclude Include="hamiltonian_path.h" />
+    <ClInclude Include="tsp.h" />
     <ClInclude Include="TempBoard.h" />
     <ClInclude Include="Temp_solution.h" />
     <ClInclude Include="tree_ancestor.h" />
     <ClInclude Include="tree_diameter.h" />
     <ClInclude Include="hierholzer.h" />
+    <ClInclude Include="tsp_1503c.h" />
     <ClInclude Include="valid_arrangement_pair.h" />
     <ClInclude Include="weird_algorithm.h" />
   </ItemGroup>
