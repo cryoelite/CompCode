@@ -176,6 +176,15 @@
     <ClInclude Include="hamiltonian_path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="download_speed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="difference_between_max_and_min_sum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="download_speed_capacity_scaling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\input.txt" />

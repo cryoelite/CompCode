@@ -2,7 +2,7 @@
 #include<iostream>
 
 #include "EasyBench.h"
-#include "hamiltonian_path.h"
+#include "download_speed_capacity_scaling.h"
 
 using namespace std;
 signed main() {

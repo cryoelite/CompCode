@@ -35,4 +35,4 @@ public:
 			reverse(endIt, firstIt);
 		}
 	}
-}; #pragma once
+}; 

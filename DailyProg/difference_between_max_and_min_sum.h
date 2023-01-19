@@ -1,4 +1,5 @@
 #pragma once
+//https://leetcode.com/contest/weekly-contest-328/problems/difference-between-maximum-and-minimum-price-sum/
 
 #define LOCAL
 #pragma region HEADERS
@@ -10,6 +11,7 @@
 #include <map>
 #include<stack>
 #include<complex>
+#include<tuple>
 #else
 #include<bits/stdc++.h>
 #endif // LOCAL
@@ -31,14 +33,19 @@ void OUTPUT(T&... args) { ((cout << args << " "), ...); cout << "\n"; }
 #define sk stack
 #define R real()
 #define I imag()
+#define tiii tuple<int,int,int>
+#define mmi make_move_iterator
+
 
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
 using pivi = pair<int, vector<int>>;  //first is node's value and second is node's adjacent elements
 using pii = pair<int, int>;
 using vpii = vector<pii>; // edge list
+using vtiii = vector<tiii>;
+using vvtiii = vector<vector<tiii>>; //adjacency list with adjacent node id, edge weight and an extra value.
 using vpivi = vector<pivi>;
-using vvpii = vector<vector<pii>>;
+using vvpii = vector<vector<pii>>; //adjacency list with edge weights, the pii has first as node id and second as the edge weight
 using mii = map<int, int>;
 using vmii = vector<mii>;
 using vb = vector<bool>;
@@ -56,11 +63,10 @@ class Solution {
 	int testCases = 1;
 	int edges = 0;
 	int nodes = 0;
-	vvi adjM; //matrix, keeps count of edges from node a to b
-	vvi radj; //reverse-adjacency list
-	vi bitNodes; //bit representation of nodes
-	vvi states; //each node and power set of set of nodes for it
-	vvi nodeSet; //all nodes in a given set
+	vpii el; //edgelist
+	vvi adj;
+	vi leaves;
+	vi values;
 
 public:
 	Solution() {
@@ -81,23 +87,30 @@ private:
 
 		while (testCases-- > 0)
 		{
-			INPUT(nodes, edges);
-
+			INPUT(nodes);
+			edges = nodes - 1; //by definition of a tree
 			//0-indexed
-			adjM = vvi(nodes, vi(nodes, 0));
-			radj = vvi(nodes, vi());
-			bitNodes = vi(nodes + 1);               //nodes+1 because p[0] will be 1 so it is 1-indexed
-			states = vvi(nodes, vi(1ll << nodes));
-			nodeSet = vvi(1ll << nodes, vi());
 
-			for (int i{ 1 }; i <= edges; ++i) {
+			el = vpii(edges);
+			adj = vvi(nodes + 1, vi());
+			leaves = vi();
+			values = vi(nodes + 1, 0);
+
+			for (int i{ 0 }; i < edges; ++i) {
 				int arg1{};
 				int arg2{};
 				INPUT(arg1, arg2);
-				--arg1;
-				--arg2;
 
-				adjM[arg1][arg2]++;
+				el[i] = pii(arg1, arg2);
+
+			}
+
+			for (int i{ 1 }; i <= nodes; ++i) {
+				int arg1{};
+				INPUT(arg1);
+
+				values[i] = arg1;
+
 			}
 
 			start();
@@ -105,48 +118,56 @@ private:
 	}
 
 	void start() {
-		for (int i{ 0 }; i <= nodes; ++i)
-			bitNodes[i] = (1ll << i);
 
-		states[0][1] = 1;
-		//1 path from 0 to 1
+		for (int i{ 0 }; i < edges; ++i) {
+			int* first{ &el[i].first };
+			int* second{ &el[i].second };
+			adj[*first + 1].pb(*second + 1);
+			adj[*second + 1].pb(*first + 1);
 
-		for (int i{ 0 }; i < nodes; ++i)
-		{
-			for (int j{ 0 }; j < nodes; ++j)
-			{
-				if (i != j && adjM[j][i] > 0)						//if there is a path from j to i, then radj[i] will have j inserted, as many times as the no. of paths from j to i
-					for (int k{ 0 }; k < adjM[j][i]; ++k)
-						radj[i].pb(j);
-			}
 		}
 
-		for (int i{ 1 }; i < bitNodes[nodes]; ++i)    //bitNodes[nodes] because 1ll<<nodes would be a needless calculation
-		{
-			for (int j{ 1 }; j < nodes; ++j)
-			{
-				if (i & bitNodes[j])				//if node j is in the set i, i is a set because it is a bit representation of all sets of nodes.
-					nodeSet[i].pb(j);				//nodeSet[i] is the list of all nodes in the power set i.
-			}
+		dfs1(1);
+		int ans{ dfs2(leaves.back(), leaves.back()) };
+
+
+
+		output(ans);
+	}
+	//find-leaves
+	void dfs1(int node, int prev = 0)
+	{
+		for (int elem : adj[node]) {
+			if (elem == prev) continue;
+
+			dfs1(elem, node);
 		}
 
-		for (int i{ 1 }; i < bitNodes[nodes]; ++i)
-		{
-			for (int j : nodeSet[i]) {
-				int nodeEx{ i ^ (bitNodes[j]) };   //nodeEx is a bit representation/set of all nodes that i represents except the node j
-				for (int k : radj[j])
-				{
-					states[j][i] += states[k][nodeEx];
-				}
-				states[j][i] %= mod10;
-			}
-		}
-
-		output();
+		if (adj[node].size() == 1)
+			leaves.pb(node);
 	}
 
-	void output() {
-		cout << states[nodes - 1][bitNodes[nodes] - 1] << endl;
+	int dfs2(int node, int startNode, int prev = 0, int runningSum = 0, int maxSum = 0)
+	{
+		runningSum += values[node];
+		maxSum = max(maxSum, runningSum);
+
+		for (int elem : adj[node])
+		{
+			if (elem == prev) continue;
+
+			maxSum = max(maxSum, dfs2(elem, startNode, node, runningSum, maxSum));
+		}
+
+		if (adj[node].size() == 1 && prev != 0) {
+			maxSum -= min(values[startNode], values[node]);
+		}
+		return maxSum;
+	}
+
+	void output(int ans) {
+		cout << ans << endl;
+
 	}
 };
 

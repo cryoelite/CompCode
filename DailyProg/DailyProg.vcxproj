@@ -28,7 +28,10 @@
     <ClInclude Include="coin_problem.h" />
     <ClInclude Include="count_global_inversions_and_local_inversions.h" />
     <ClInclude Include="count_inversions_array.h" />
+    <ClInclude Include="difference_between_max_and_min_sum.h" />
     <ClInclude Include="distinct_colors.h" />
+    <ClInclude Include="download_speed.h" />
+    <ClInclude Include="download_speed_capacity_scaling.h" />
     <ClInclude Include="EasyBench.h" />
     <ClInclude Include="finding_a_centroid.h" />
     <ClInclude Include="find_duplicates_in_array.h" />
