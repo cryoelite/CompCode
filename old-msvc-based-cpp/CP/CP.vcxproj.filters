@@ -185,6 +185,9 @@
     <ClInclude Include="download_speed_capacity_scaling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="shortest_routes_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\input.txt" />

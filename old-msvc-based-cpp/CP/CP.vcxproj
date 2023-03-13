@@ -64,6 +64,7 @@
     <ClInclude Include="rotate_array.h" />
     <ClInclude Include="rotate_image.h" />
     <ClInclude Include="search_2d_matrix.h" />
+    <ClInclude Include="shortest_routes_2.h" />
     <ClInclude Include="sort_0_1_2.h" />
     <ClInclude Include="sparse_table_rmq.h" />
     <ClInclude Include="stock_buy_and_sell.h" />
@@ -180,7 +181,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
