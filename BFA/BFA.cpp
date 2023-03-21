@@ -14,6 +14,7 @@
 #include <tuple>
 #include <vector>
 #include <queue>
+#include "../Helpers/Easybench/Easybench.h"
 #else
 #include <bits/stdc++.h>
 #endif // LOCAL
@@ -29,13 +30,13 @@
 template <typename... T>
 void INPUT(T &...args)
 {
-	((std::cin >> args), ...);
+    ((std::cin >> args), ...);
 }
 template <typename... T>
 void OUTPUT(T &...args)
 {
-	((std::cout << args << " "), ...);
-	std::cout << "\n";
+    ((std::cout << args << " "), ...);
+    std::cout << "\n";
 }
 #define ARR_INPUT(arr, x)      \
     for (int i{0}; i < x; ++i) \
@@ -57,9 +58,9 @@ void OUTPUT(T &...args)
 #pragma endregion
 
 #pragma region Constants
-constexpr int mod10{ 10000007 };
-constexpr int N{ 200005 };
-constexpr int INF{ std::numeric_limits<int>::max() };
+constexpr int mod10{10000007};
+constexpr int N{200005};
+constexpr int INF{std::numeric_limits<int>::max()};
 #pragma endregion
 
 #pragma region Usings
@@ -85,92 +86,93 @@ using pqii = std::priority_queue<pii>;
 #pragma endregion
 
 #pragma region Variables
-int testCases{ 1 };
+int testCases{1};
 int nodes{};
 int edges{};
-vvpii adj{ vvpii(N, vpii()) }; // 1-indexed
-vi minD{ vi(N, INF) };
-vb visited{ vb(N, false) };
+vtiii edgeList{vtiii(N)}; // first is node a, second is node b and third is the edge weight
+vi minD{vi(N, INF)};
+vb visited{vb(N, false)};
 pqii nextElems{};
-vi result{ vi(N) };
 
 #pragma endregion
 
 namespace Algorithm
 {
-	using namespace std;
-	void start();
-	void output();
-	void bfs(int);
+    using namespace std;
+    void start();
+    void output();
+    void bfs(int);
 
-	void setup()
-	{
-		IOS;
+    void setup()
+    {
+        IOS;
 #ifdef LOCAL
-		FILE* inpStream;
-		FILE* outStream;
-		freopen_s(&inpStream, "../input.txt", "r", stdin);
-		freopen_s(&outStream, "../output.txt", "w", stdout);
+        FILE *inpStream;
+        FILE *outStream;
+        freopen_s(&inpStream, "input.txt", "r", stdin);
+        freopen_s(&outStream, "output.txt", "w", stdout);
 #endif
-		// cin >> testCases;
+        // cin >> testCases;
 
-		while (testCases-- > 0)
-		{
-			INPUT(nodes, edges);
+        while (testCases-- > 0)
+        {
+            INPUT(nodes, edges);
 
-			for (int i{ 1 }, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
-			{
-				INPUT(arg1, arg2, arg3);
+            for (int i{1}, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
+            {
+                INPUT(arg1, arg2, arg3);
 
-				adj[arg1].pb(pii(arg2, arg3));
-				adj[arg2].pb(pii(arg1, arg3));
-			}
+                edgeList[i] = tiii(arg1, arg2, arg3);
+            }
 
-			start();
-		}
-	}
+            start();
+        }
+    }
 
-	void start()
-	{
+    // Bellman-Ford Alg
+    void start()
+    {
+        minD[1] = 0; // 1 is our start node
+        bool isChanged{};
+        for (int i{0}; i <= nodes - 1; ++i)
+        {
+            isChanged = false;
+            for (int j{1}, a{}, b{}, w{}; j <= edges; ++j)
+            {
+                tie(a, b, w) = edgeList[j];
+                if (minD[a] != INF && minD[a] + w < minD[b]) //check is required to prevent INF overflowing and wrapping around.
+                {
+                    minD[b] = minD[a] + w;
+                    isChanged = true;
+                }
+            }
+            if (!isChanged)
+                break;
+        }
 
-		bfs(1);
-		output();
-	}
+        output();
+    }
 
-	// iterative bfs
-	void bfs(int start)
-	{
-		minD[start] = 0;
-		nextElems.push({ minD[start], start });
-		visited[start] = true;
-		result[start] = 0;
-		while (!nextElems.empty())
-		{
-			int elem{ nextElems.top().second }; // the first elem is just for defining the node's position in the PQ
-			nextElems.pop();
-			visited[elem] = true;
-			for (pii& node : adj[elem])
-			{
-				if (visited[node.first])
-					continue;
-
-				minD[node.first] = min(minD[elem] + node.second, minD[node.first]);
-				result[node.first] = minD[node.first];
-				nextElems.push({ minD[node.first], node.first });
-			}
-		}
-	}
-
-	void output()
-	{
-		for (int i{ 1 }; i <= nodes; ++i)
-			std::cout << result[i] << " ";
-		std::cout << std::endl;
-	}
+    void output()
+    {
+        for (int i{1}; i <= nodes; ++i)
+            std::cout << minD[i] << " ";
+        std::cout << std::endl;
+    }
 }
 
 signed main()
 {
-	Algorithm::setup();
-	return 0;
+#ifdef LOCAL
+    EasyBench eb{};   
+#endif
+
+
+    Algorithm::setup();
+
+
+#ifdef LOCAL
+    eb.showresult();
+#endif
+    return 0;
 }

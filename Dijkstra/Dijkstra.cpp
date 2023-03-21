@@ -29,13 +29,13 @@
 template <typename... T>
 void INPUT(T &...args)
 {
-	((std::cin >> args), ...);
+    ((std::cin >> args), ...);
 }
 template <typename... T>
 void OUTPUT(T &...args)
 {
-	((std::cout << args << " "), ...);
-	std::cout << "\n";
+    ((std::cout << args << " "), ...);
+    std::cout << "\n";
 }
 #define ARR_INPUT(arr, x)      \
     for (int i{0}; i < x; ++i) \
@@ -57,9 +57,9 @@ void OUTPUT(T &...args)
 #pragma endregion
 
 #pragma region Constants
-constexpr int mod10{ 10000007 };
-constexpr int N{ 200005 };
-constexpr int INF{ std::numeric_limits<int>::max() };
+constexpr int mod10{10000007};
+constexpr int N{200005};
+constexpr int INF{std::numeric_limits<int>::max()};
 #pragma endregion
 
 #pragma region Usings
@@ -85,92 +85,89 @@ using pqii = std::priority_queue<pii>;
 #pragma endregion
 
 #pragma region Variables
-int testCases{ 1 };
+int testCases{1};
 int nodes{};
 int edges{};
-vvpii adj{ vvpii(N, vpii()) }; // 1-indexed
-vi minD{ vi(N, INF) };
-vb visited{ vb(N, false) };
+vvpii adj{vvpii(N, vpii())}; // 1-indexed
+vi minD{vi(N, INF)};
+vb visited{vb(N, false)};
 pqii nextElems{};
-vi result{ vi(N) };
 
 #pragma endregion
 
 namespace Algorithm
 {
-	using namespace std;
-	void start();
-	void output();
-	void bfs(int);
+    using namespace std;
+    void start();
+    void output();
+    void bfs(int);
 
-	void setup()
-	{
-		IOS;
+    void setup()
+    {
+        IOS;
 #ifdef LOCAL
-		FILE* inpStream;
-		FILE* outStream;
-		freopen_s(&inpStream, "../input.txt", "r", stdin);
-		freopen_s(&outStream, "../output.txt", "w", stdout);
+        FILE *inpStream;
+        FILE *outStream;
+        freopen_s(&inpStream, "input.txt", "r", stdin);
+        freopen_s(&outStream, "output.txt", "w", stdout);
 #endif
-		// cin >> testCases;
+        // cin >> testCases;
 
-		while (testCases-- > 0)
-		{
-			INPUT(nodes, edges);
+        while (testCases-- > 0)
+        {
+            INPUT(nodes, edges);
 
-			for (int i{ 1 }, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
-			{
-				INPUT(arg1, arg2, arg3);
+            for (int i{1}, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
+            {
+                INPUT(arg1, arg2, arg3);
 
-				adj[arg1].pb(pii(arg2, arg3));
-				adj[arg2].pb(pii(arg1, arg3));
-			}
+                adj[arg1].pb(pii(arg2, arg3));
+            }
 
-			start();
-		}
-	}
+            start();
+        }
+    }
 
-	void start()
-	{
+    void start()
+    {
 
-		bfs(1);
-		output();
-	}
+        bfs(1);
+        output();
+    }
 
-	// iterative bfs
-	void bfs(int start)
-	{
-		minD[start] = 0;
-		nextElems.push({ minD[start], start });
-		visited[start] = true;
-		result[start] = 0;
-		while (!nextElems.empty())
-		{
-			int elem{ nextElems.top().second }; // the first elem is just for defining the node's position in the PQ
-			nextElems.pop();
-			visited[elem] = true;
-			for (pii& node : adj[elem])
-			{
-				if (visited[node.first])
-					continue;
+    // Dijkstra's Alg
+    void bfs(int start)
+    {
+        minD[start] = 0;
+        nextElems.push({minD[start], start});
+        while (!nextElems.empty())
+        {
+            int elem{nextElems.top().second}; // the first elem is just for defining the node's position in the PQ
+            nextElems.pop();
+            if (visited[elem])
+                continue;
+            visited[elem] = true;
+            for (pii &node : adj[elem])
+            {
+                if (minD[elem] + node.second < minD[node.first])
+                {
+                    minD[node.first] = minD[elem] + node.second;
+                    nextElems.push({-minD[node.first], node.first});
+                }
+            }
+        }
+    }
 
-				minD[node.first] = min(minD[elem] + node.second, minD[node.first]);
-				result[node.first] = minD[node.first];
-				nextElems.push({ minD[node.first], node.first });
-			}
-		}
-	}
-
-	void output()
-	{
-		for (int i{ 1 }; i <= nodes; ++i)
-			std::cout << result[i] << " ";
-		std::cout << std::endl;
-	}
+    void output()
+    {
+        for (int i{1}; i <= nodes; ++i)
+            std::cout << minD[i] << " ";
+        std::cout << std::endl;
+    }
 }
 
 signed main()
 {
-	Algorithm::setup();
-	return 0;
+    Algorithm::setup();
+    return 0;
 }
