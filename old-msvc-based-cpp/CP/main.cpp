@@ -1,4 +1,4 @@
-// Problem: https://cses.fi/problemset/task/1671
+// Problem: https://codeforces.com/gym/101498/problem/L
 
 #define LOCAL
 
@@ -89,11 +89,15 @@ int testCases{ 1 };
 int nodes{};
 int edges{};
 vvpii adj{ vvpii(N, vpii()) }; // 1-indexed
-vi minD{ vi(N, INF) };
+vtiii el{ vtiii(N) };
+
+vi reweights{ vi(N) };
 vb visited{ vb(N, false) };
 pqii nextElems{};
-vi result{ vi(N) };
 
+vi minD{ vi(N) };
+int result{ INF };
+int S{};
 #pragma endregion
 
 namespace Algorithm
@@ -101,7 +105,9 @@ namespace Algorithm
 	using namespace std;
 	void start();
 	void output();
-	void bfs(int);
+	void bfs(int, bool);
+	bool bfa(int);
+	void init();
 
 	void setup()
 	{
@@ -112,65 +118,123 @@ namespace Algorithm
 		freopen_s(&inpStream, "../input.txt", "r", stdin);
 		freopen_s(&outStream, "../output.txt", "w", stdout);
 #endif
-		// cin >> testCases;
+		cin >> testCases;
 
 		while (testCases-- > 0)
 		{
 			INPUT(nodes, edges);
 
-			for (int i{ 1 }, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
+			//init();
+
+			for (int i{ 1 }; i <= nodes; ++i)
+				el[i] = { S, i, 0 };
+
+			for (int i{ 1 }, j{ nodes + 1 }, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
 			{
 				INPUT(arg1, arg2, arg3);
 
-				adj[arg1].pb(pii(arg2, arg3));
-				adj[arg2].pb(pii(arg1, arg3));
+				adj[arg1].pb({ arg2, arg3 });
+
+				el[j++] = { arg1, arg2, arg3 };
 			}
 
+			edges = edges + nodes; // m+n edges
+			// nodes += 1;
 			start();
 		}
 	}
 
 	void start()
 	{
+		bool isCycle{ bfa(0) };
+		if (isCycle)
+		{
+			std::cout << "-inf" << '\n';
+			return;
+		}
 
-		bfs(1);
+		for (int i{ 1 }; i <= nodes; ++i)
+		{
+			bfs(i, i == 1);
+		}
 		output();
 	}
 
-	// iterative bfs
-	void bfs(int start)
+	// Bellman-Ford Alg, detect cycles too
+	bool bfa(int start)
 	{
-		minD[start] = 0;
-		nextElems.push({ minD[start], start });
-		visited[start] = true;
-		result[start] = 0;
+		reweights[start] = 0;
+		bool isChanged{ false };
+		for (int i{ 0 }; i <= nodes + 1; ++i, isChanged = false)
+		{
+			for (int j{ 1 }; j <= edges; ++j)
+			{
+				int a{}, b{}, w{};
+				tie(a, b, w) = el[j];
+
+				if (reweights[a] != INF && reweights[a] + w < reweights[b])
+				{
+					reweights[b] = reweights[a] + w;
+					isChanged = true;
+				}
+			}
+			if (!isChanged)
+				break;
+			else if (isChanged && i == (nodes + 1))
+				return true; // cycle
+		}
+		return false;
+	}
+	// Dijkstra's Alg
+	void bfs(int start, bool shouldReweight)
+	{
+		minD[start][start] = 0;
+		nextElems.push({ minD[start][start], start });
+
 		while (!nextElems.empty())
 		{
-			int elem{ nextElems.top().second }; // the first elem is just for defining the node's position in the PQ
+			int elem{ nextElems.top().second };
 			nextElems.pop();
-			visited[elem] = true;
+
+			if (visited[start][elem])
+				continue;
+			visited[start][elem] = true;
 			for (pii& node : adj[elem])
 			{
-				if (visited[node.first])
-					continue;
+				if (shouldReweight)
+					node.second += reweights[elem] - reweights[node.first]; // reweight the edge.
 
-				minD[node.first] = min(minD[elem] + node.second, minD[node.first]);
-				result[node.first] = minD[node.first];
-				nextElems.push({ minD[node.first], node.first });
+				if (minD[start][elem] + node.second < minD[start][node.first])
+				{
+					minD[start][node.first] = minD[start][elem] + node.second;
+					result = min(result, minD[start][node.first] - (reweights[start] - reweights[node.first]));
+					nextElems.push({ -minD[start][node.first], node.first });
+				}
 			}
 		}
 	}
 
 	void output()
 	{
-		for (int i{ 1 }; i <= nodes; ++i)
-			std::cout << result[i] << " ";
+		std::cout << result;
 		std::cout << std::endl;
+	}
+
+	void init()
+	{
+		minD = vvi(nodes + 1, vi(nodes + 1, INF));
+		adj = vvpii(nodes + 1, vpii());
+		reweights = vi(nodes + 1, INF);
+		visited = vvb(nodes + 1, vb(nodes + 1, false));
+		result = INF;
 	}
 }
 
 signed main()
 {
+
+
 	Algorithm::setup();
+
 	return 0;
 }

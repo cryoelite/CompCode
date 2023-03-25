@@ -129,7 +129,7 @@ namespace Algorithm
         }
     }
 
-    // Bellman-Ford Alg
+    // Bellman-Ford Alg, TLE tho
     void start()
     {
         minD[1] = 0; // 1 is our start node

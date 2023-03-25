@@ -1,4 +1,4 @@
-// Problem: https://atcoder.jp/contests/abc237/tasks/abc237_e
+// Problem: https://codeforces.com/gym/101498/problem/L
 
 #define LOCAL
 
@@ -14,6 +14,7 @@
 #include <tuple>
 #include <vector>
 #include <queue>
+#include "../Helpers/Easybench/Easybench.h"
 #else
 #include <bits/stdc++.h>
 #endif // LOCAL
@@ -89,11 +90,15 @@ int testCases{1};
 int nodes{};
 int edges{};
 vvpii adj{vvpii(N, vpii())}; // 1-indexed
-vi minD{vi(N, INF)};
+vtiii el{vtiii(N)};
+
+vi reweights{vi(N)};
 vb visited{vb(N, false)};
 pqii nextElems{};
 
-vi values{vi(N)};
+vi minD{vi(N)};
+int result{INF};
+int S{};
 #pragma endregion
 
 namespace Algorithm
@@ -101,7 +106,9 @@ namespace Algorithm
     using namespace std;
     void start();
     void output();
-    void bfs(int);
+    void bfs(int, bool);
+    bool bfa(int);
+    void init();
 
     void setup()
     {
@@ -112,63 +119,95 @@ namespace Algorithm
         freopen_s(&inpStream, "input.txt", "r", stdin);
         freopen_s(&outStream, "output.txt", "w", stdout);
 #endif
-        // cin >> testCases;
+        cin >> testCases;
 
         while (testCases-- > 0)
         {
             INPUT(nodes, edges);
-            for (int i{1}, arg1{}; i <= nodes; ++i)
+
+            init();
+
+            for (int i{1}, j{nodes + 1}, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
             {
-                INPUT(arg1);
-                values[i] = arg1;
+                INPUT(arg1, arg2, arg3);
+
+                adj[arg1].pb({arg2, arg3});
+
+                el[j++] = {arg1, arg2, arg3};
             }
 
-            for (int i{1}, arg1{}, arg2{}, edgeWeight{}; i <= edges; ++i)
-            {
-                INPUT(arg1, arg2);
-
-                if (values[arg1] > values[arg2])
-                {
-                    edgeWeight = values[arg1] - values[arg2];
-                    adj[arg1].pb(pii(arg2, edgeWeight));
-                    adj[arg2].pb(pii(arg1, -2 * edgeWeight));
-                }
-                else
-                {
-                    edgeWeight = values[arg2] - values[arg1];
-                    adj[arg1].pb(pii(arg2, -2 * edgeWeight));
-                    adj[arg2].pb(pii(arg1, edgeWeight));
-                }
-            }
-
+            edges = edges + nodes; // m+n edges
+            // nodes += 1;
             start();
         }
     }
 
     void start()
     {
+        bool isCycle{bfa(0)};
+        if (isCycle)
+        {
+            std::cout << "-inf" << '\n';
+            return;
+        }
 
-        bfs(1);
+        for (int i{1}; i <= nodes; ++i)
+        {
+            bfs(i, i == 1);
+        }
         output();
     }
 
-    // Dijkstra's Alg
-    void bfs(int start)
+    // Bellman-Ford Alg, detect cycles too
+    bool bfa(int start)
     {
+        reweights[start] = 0;
+        bool isChanged{false};
+        for (int i{0}; i <= nodes + 1; ++i, isChanged = false)
+        {
+            for (int j{1}; j <= edges; ++j)
+            {
+                int a{}, b{}, w{};
+                tie(a, b, w) = el[j];
+
+                if (reweights[a] != INF && reweights[a] + w < reweights[b])
+                {
+                    reweights[b] = reweights[a] + w;
+                    isChanged = true;
+                }
+            }
+            if (!isChanged)
+                break;
+            else if (isChanged && i == (nodes + 1))
+                return true; // cycle
+        }
+        return false;
+    }
+    // Dijkstra's Alg
+    void bfs(int start, bool shouldReweight)
+    {
+        std::fill(minD.begin(), minD.end(), INF);
+        std::fill(visited.begin(), visited.end(), false);
         minD[start] = 0;
         nextElems.push({minD[start], start});
+
         while (!nextElems.empty())
         {
-            int elem{nextElems.top().second}; // the first elem is just for defining the node's position in the PQ
+            int elem{nextElems.top().second};
             nextElems.pop();
+
             if (visited[elem])
                 continue;
             visited[elem] = true;
             for (pii &node : adj[elem])
             {
+                if (shouldReweight)
+                    node.second += reweights[elem] - reweights[node.first]; // reweight the edge.
+
                 if (minD[elem] + node.second < minD[node.first])
                 {
                     minD[node.first] = minD[elem] + node.second;
+                    result = min(result, minD[node.first] - (reweights[start] - reweights[node.first]));
                     nextElems.push({-minD[node.first], node.first});
                 }
             }
@@ -177,14 +216,33 @@ namespace Algorithm
 
     void output()
     {
-        for (int i{1}; i <= nodes; ++i)
-            std::cout << minD[i] << " ";
+        std::cout << result;
         std::cout << std::endl;
+    }
+
+    void init()
+    {
+        for (int i{1}; i <= nodes; ++i)
+        {
+            adj[i] = vpii();
+            reweights[i] = INF;
+            el[i] = {S, i, 0};
+        }
+
+        result = INF;
     }
 }
 
 signed main()
 {
+#ifdef LOCAL
+    EasyBench eb{};
+#endif
+
     Algorithm::setup();
+
+#ifdef LOCAL
+    eb.showresult();
+#endif
     return 0;
 }
