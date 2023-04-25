@@ -1,4 +1,4 @@
-// Problem: https://codeforces.com/gym/101498/problem/L
+// Problem: https://cses.fi/problemset/task/2189
 
 #define LOCAL
 
@@ -14,6 +14,7 @@
 #include <tuple>
 #include <vector>
 #include <queue>
+#include "../Helpers/Easybench/Easybench.h"
 #else
 #include <bits/stdc++.h>
 #endif // LOCAL
@@ -29,13 +30,13 @@
 template <typename... T>
 void INPUT(T &...args)
 {
-	((std::cin >> args), ...);
+    ((std::cin >> args), ...);
 }
 template <typename... T>
 void OUTPUT(T &...args)
 {
-	((std::cout << args << " "), ...);
-	std::cout << "\n";
+    ((std::cout << args << " "), ...);
+    std::cout << "\n";
 }
 #define ARR_INPUT(arr, x)      \
     for (int i{0}; i < x; ++i) \
@@ -57,9 +58,9 @@ void OUTPUT(T &...args)
 #pragma endregion
 
 #pragma region Constants
-constexpr int mod10{ 10000007 };
-constexpr int N{ 200005 };
-constexpr int INF{ std::numeric_limits<int>::max() };
+constexpr int mod10{10000007};
+constexpr int N{200005};
+constexpr int INF{std::numeric_limits<int>::max()};
 #pragma endregion
 
 #pragma region Usings
@@ -79,126 +80,104 @@ using vvb = std::vector<vb>;
 using ri = revit<vi::iterator>;
 using si = sk<int>;
 using CD = std::complex<double>;
-using CI = std::complex<int>;
+using CI = std::complex<int>; //DEPRECATED
 using si = std::stack<int>;
 using pqii = std::priority_queue<pii>;
 #pragma endregion
 
 #pragma region Variables
-int testCases{ 1 };
-int nodes{};
-int edges{};
-vvpii adj{ vvpii(N, vpii(N)) }; // 1-indexed
-vtiii el{ vtiii(N) };
-vvpii adj1{ vvpii(N, vpii(N)) };
-vvpii adj2{ vvpii(N, vpii(N)) };
-vi reweights{ vi(N) };
-vb visited{ vb(N, false) };
-pqii nextElems{};
-
-vi minD{ vi(N) };
-int result{ INF };
-int S{};
+int testCases{1};
+CD x{};
+CD y{};
+CD p{};
+std::string result{};
 #pragma endregion
 
 namespace Algorithm
 {
-	using namespace std;
-	void start();
-	void output();
-	void bfs(int, bool);
-	bool bfa(int);
-	void init();
+    using namespace std;
+    void start();
+    void output();
+    void bfs(int, bool);
+    bool bfa(int);
+    void init();
 
-	void setup()
-	{
-		IOS;
+    void setup()
+    {
+        IOS;
 #ifdef LOCAL
-		FILE* inpStream;
-		FILE* outStream;
-		freopen_s(&inpStream, "../input.txt", "r", stdin);
-		freopen_s(&outStream, "../output.txt", "w", stdout);
+        FILE *inpStream;
+        FILE *outStream;
+        freopen_s(&inpStream, "input.txt", "r", stdin);
+        freopen_s(&outStream, "output.txt", "w", stdout);
 #endif
-		cin >> testCases;
+        INPUT(testCases);
 
-		while (testCases-- > 0)
-		{
-			INPUT(nodes, edges);
-
-			//init();
-
-			for (int i{ 1 }; i <= nodes; ++i)
-				el[i] = { S, i, 0 };
-
-			for (int i{ 1 }, j{ nodes + 1 }, arg1{}, arg2{}, arg3{}; i <= edges; ++i)
-			{
-				INPUT(arg1, arg2, arg3);
-
-				adj[arg1].pb({ arg2, arg3 });
-
-				el[j++] = { arg1, arg2, arg3 };
-			}
-
-			edges = edges + nodes; // m+n edges
-			// nodes += 1;
-			start();
-		}
-	}
-
-	void start()
-	{
-		bool isCycle{ bfa(0) };
-		if (isCycle)
-		{
-			std::cout << "-inf" << '\n';
-			return;
-		}
-
-	
-		output();
-	}
-
-	// Bellman-Ford Alg, detect cycles too
-	bool bfa(int start)
-	{
-		reweights[start] = 0;
-		bool isChanged{ false };
-		for (int i{ 0 }; i <= nodes + 1; ++i, isChanged = false)
-		{
-			for (int j{ 1 }; j <= edges; ++j)
-			{
-				int a{}, b{}, w{};
-				tie(a, b, w) = el[j];
-
-				if (reweights[a] != INF && reweights[a] + w < reweights[b])
-				{
-					reweights[b] = reweights[a] + w;
-					isChanged = true;
-				}
-			}
-			if (!isChanged)
-				break;
-			else if (isChanged && i == (nodes + 1))
-				return true; // cycle
-		}
-		return false;
-	}
-	// Dijkstra's Alg
-
-	void output()
-	{
-		std::cout << result;
-		std::cout << std::endl;
-	}
+        while (testCases-- > 0)
+        {
+            
+            init();
+            double arg1{};
+            double arg2{};
+            
+            INPUT(arg1,arg2);
+            x=CD{arg1,arg2};
 
 
+            INPUT(arg1,arg2);
+            y=CD{arg1,arg2};
+            
+            INPUT(arg1,arg2);
+            p=CD{arg1,arg2};
+            
+            start();
+        }
+    }
+
+    void start()
+    {;
+        CD a{p-x};
+        CD b{p-y};
+        double res{(conj(a)*b).I};
+        if(res == 0)
+            result = "TOUCH";
+        else if(res < 0)
+            result = "RIGHT";
+        else
+            result = "LEFT";
+        output();
+    }
+
+
+
+    void output()
+    {
+        std::cout << result;
+        std::cout << std::endl;
+    }
+
+    void init()
+    {
+        x={};
+        
+        y={};
+
+        p={};
+
+        result="";
+    }
 }
 
 signed main()
 {
+#ifdef LOCAL
+    EasyBench eb{};
+#endif
 
+    Algorithm::setup();
 
-	Algorithm::setup();
-
-	return 0;
+#ifdef LOCAL
+    eb.showresult();
+#endif
+    return 0;
 }
