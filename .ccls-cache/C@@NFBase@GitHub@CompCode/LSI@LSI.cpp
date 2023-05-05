@@ -101,9 +101,10 @@ namespace Algorithm
     using namespace std;
     void start();
     void output();
-    void bfs(int, bool);
-    bool bfa(int);
     void init();
+    double crossProduct(CD&,CD&,CD&);
+    bool comparatorCD(CD&, CD&);
+    bool isMid(CD&,CD&,CD&);
 
     void setup()
     {
@@ -119,7 +120,7 @@ namespace Algorithm
         while (testCases-- > 0)
         {
 
-            //init();
+            // init();
             double arg1{};
             double arg2{};
 
@@ -152,13 +153,17 @@ namespace Algorithm
     {
         return (a.R == b.R) ? (a.I < b.I) : (a.R < b.R);
     }
-
+    /// @brief checks if the point b is in middle on the cartesian plane with respect to the other args.
+    /// @param a
+    /// @param b
+    /// @param c
+    /// @return
     bool isMid(CD &a, CD &b, CD &c)
     {
-        std::vector<CD> temp{a,b,c};
+        std::vector<CD> temp{a, b, c};
         std::sort(temp.begin(), temp.end(), comparatorCD);
 
-        return temp[1]==b;
+        return temp[1] == b;
     }
 
     void start()
@@ -173,14 +178,23 @@ namespace Algorithm
 
         result = "NO";
 
-        if (isMid(a1, b1, a2) || isMid(a1, b2, a2))
+        if (resB1 == 0 && isMid(a1, b1, a2))
         {
-            if (resA1 == 0 || resA2 == 0 || resB1 == 0 || resB2 == 0) //case 1 and case 2
-            {
-                result = "YES"; // b1/b2 lie between a1 and a2
-            }
+            result = "YES";
         }
-        else if ((resA1 * resA2) < 0 && (resB1 * resB2) < 0) //case 3
+        else if (resB2 == 0 && isMid(a1, b2, a2))
+        {
+            result = "YES";
+        }
+        else if (resA1 == 0 && isMid(b1, a1, b2))
+        {
+            result = "YES";
+        }
+        else if (resA2 == 0 && isMid(b1, a2, b2))
+        {
+            result = "YES";
+        }
+        if ((resA1 * resA2) < 0 && (resB1 * resB2) < 0) // case 3
         {
             result = "YES";
         }

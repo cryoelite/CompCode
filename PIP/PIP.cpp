@@ -1,4 +1,4 @@
-// Problem: https://cses.fi/problemset/task/2190
+// https://cses.fi/problemset/task/2191
 
 #define LOCAL
 
@@ -14,6 +14,7 @@
 #include <tuple>
 #include <vector>
 #include <queue>
+#include <string_view>
 #include "../Helpers/Easybench/Easybench.h"
 #else
 #include <bits/stdc++.h>
@@ -22,6 +23,7 @@
 
 #pragma region Defines
 #define int long long
+#define double long double
 #define LOG(x) static_cast<int>(std::floor(std::log2(x)))
 #define IOS                                \
     std::ios_base::sync_with_stdio(false); \
@@ -83,17 +85,17 @@ using CD = std::complex<double>;
 using CI = std::complex<int>; // DEPRECATED
 using si = std::stack<int>;
 using pqii = std::priority_queue<pii>;
+using vcd = std::vector<CD>;
+using vs = std::vector<std::string_view>;
 #pragma endregion
 
 #pragma region Variables
 int testCases{1};
-CD a1{};
-CD a2{};
-
-CD b1{};
-CD b2{};
-
-std::string result{};
+int n{};
+int m{};
+vcd pips{};
+vcd points{};
+vs results{};
 #pragma endregion
 
 namespace Algorithm
@@ -101,10 +103,7 @@ namespace Algorithm
     using namespace std;
     void start();
     void output();
-    void init();
-    double crossProduct(CD&,CD&,CD&);
-    bool comparatorCD(CD&, CD&);
-    bool isMid(CD&,CD&,CD&);
+    double crossProduct(CD&, CD&, CD&);
 
     void setup()
     {
@@ -115,26 +114,31 @@ namespace Algorithm
         freopen_s(&inpStream, "input.txt", "r", stdin);
         freopen_s(&outStream, "output.txt", "w", stdout);
 #endif
-        INPUT(testCases);
+        //INPUT(testCases);
 
         while (testCases-- > 0)
         {
+            INPUT(n,m);
 
-            // init();
             double arg1{};
             double arg2{};
 
-            INPUT(arg1, arg2);
-            a1 = CD{arg1, arg2};
+            pips= vcd(n);
+            points= vcd(m);
+            results= vs(m);
+            for(int i{}; i<n;++i) {
 
-            INPUT(arg1, arg2);
-            a2 = CD{arg1, arg2};
+                INPUT(arg1,arg2);
 
-            INPUT(arg1, arg2);
-            b1 = CD{arg1, arg2};
+                pips[i]=CD{arg1,arg2};
+            }
+            for(int i{}; i<m;++i) {
 
-            INPUT(arg1, arg2);
-            b2 = CD{arg1, arg2};
+                INPUT(arg1,arg2);
+
+                points[i]=CD{arg1,arg2};
+            }
+
 
             start();
         }
@@ -149,56 +153,16 @@ namespace Algorithm
         return result;
     }
 
-    bool comparatorCD(CD &a, CD &b)
-    {
-        return (a.R == b.R) ? (a.I < b.I) : (a.R < b.R);
-    }
-    /// @brief checks if the point b is in middle on the cartesian plane with respect to the other args.
-    /// @param a
-    /// @param b
-    /// @param c
-    /// @return
-    bool isMid(CD &a, CD &b, CD &c)
-    {
-        std::vector<CD> temp{a, b, c};
-        std::sort(temp.begin(), temp.end(), comparatorCD);
-
-        return temp[1] == b;
-    }
-
     void start()
     {
-        double resA1{crossProduct(b1, b2, a1)};
-
-        double resA2{crossProduct(b1, b2, a2)};
-
-        double resB1{crossProduct(a1, a2, b1)};
-
-        double resB2{crossProduct(a1, a2, b2)};
-
-        result = "NO";
-
-        if (resB1 == 0 && isMid(a1, b1, a2))
-        {
-            result = "YES";
-        }
-        else if (resB2 == 0 && isMid(a1, b2, a2))
-        {
-            result = "YES";
-        }
-        else if (resA1 == 0 && isMid(b1, a1, b2))
-        {
-            result = "YES";
-        }
-        else if (resA2 == 0 && isMid(b1, a2, b2))
-        {
-            result = "YES";
-        }
-        if ((resA1 * resA2) < 0 && (resB1 * resB2) < 0) // case 3
-        {
-            result = "YES";
+        double value{};
+        CD* next{nullptr};
+        for(int i{}; i<n;++i) {
+            next= &points[(i+1)%n];
+            value += ((points[i].R* (*next).I) - ((*next).R * points[i].I));
         }
 
+        result = static_cast<int>(abs(value)); //multiplying with 1/2 and 2, i.e. 1.
         output();
     }
 
@@ -208,11 +172,7 @@ namespace Algorithm
         std::cout << std::endl;
     }
 
-    void init()
-    {
 
-        result = "";
-    }
 }
 
 signed main()
