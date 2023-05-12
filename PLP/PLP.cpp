@@ -1,4 +1,4 @@
-// https://cses.fi/problemset/task/2192
+// https://cses.fi/problemset/task/2193
 
 #define LOCAL
 
@@ -92,10 +92,9 @@ using vs = std::vector<std::string_view>;
 #pragma region Variables
 int testCases{1};
 int n{};
-int m{};
-vcd pips{};
 vcd points{};
-vs results{};
+int lInside{};
+int lBoundary{};
 #pragma endregion
 
 namespace Algorithm
@@ -106,7 +105,7 @@ namespace Algorithm
     double crossProduct(CD &, CD &, CD &);
     bool isMid(CD&,CD&,CD&);
     bool comparatorCD(CD&,CD&);
-
+    int gcd(int,int);
 
     void setup()
     {
@@ -121,22 +120,14 @@ namespace Algorithm
 
         while (testCases-- > 0)
         {
-            INPUT(n, m);
+            INPUT(n);
 
             double arg1{};
             double arg2{};
 
-            pips = vcd(n);
-            points = vcd(m);
-            results = vs(m);
+            points = vcd(n);
+
             for (int i{}; i < n; ++i)
-            {
-
-                INPUT(arg1, arg2);
-
-                pips[i] = CD{arg1, arg2};
-            }
-            for (int i{}; i < m; ++i)
             {
 
                 INPUT(arg1, arg2);
@@ -175,58 +166,42 @@ namespace Algorithm
         return temp[1] == b;
     }
 
+   int gcd(int a, int b) {
+    if (b == 0) return a;
+    return gcd(b, a%b);
+   }
 
-    //Raycasting Alg
+
+    //Pick's Theorem + https://math.stackexchange.com/a/301895/1103748 for boundary lattice points
+    //+ https://math.stackexchange.com/a/849003/1103748 for interior lattice points
     void start()
     {
-        CD extPoint{1e9+1,-1e9+1};//Any point on the outside.
-                               //We can use this point to check if any line segment from this point
-                               //to any other point intersects with the polygon and hence
-                               //performing Ray casting.
-        bool isBoundary{false};
-        for(int i{}, countsPoint{}; i<m;++i, countsPoint=0) {
-            isBoundary=false;
-            for(int j{}; j<n;++j){
-                CD& p1{points[i]};
-                CD& p2{extPoint};
+        CD const translatedA{0,0};
+        CD translatedB{};
+        int area{};
+        for(int i{}; i<n;++i ){
+            CD & tempA {points[i]};
+            CD & tempB {points[(i+1)%n]};
 
-                CD& pips1{pips[j]};
-                CD& pips2{pips[(j+1)%n]};
+            translatedB = tempB-tempA;//translating A to B to 0 to C where C is (B.x-A.x,B.y-A.y),
+                                                                 //i.e., the same length as A to B but from origin.
 
-                double resPip1{crossProduct(p1, p2, pips1)};
-                double resPip2{crossProduct(p1, p2, pips2)};
-                double resP1{crossProduct(pips1, pips2,p1)};
-                double resP2{crossProduct(pips1, pips2, p2)};
 
-                if(resP1==0 && isMid(pips1, p1,pips2))
-                {
-                    isBoundary=true;
-                    break;
-                }
-                else if((resPip1*resPip2) < 0 && (resP1*resP2)<0){
-                    countsPoint++;
-                }
-            }
-            if (isBoundary)
-            {
-                results[i]="BOUNDARY";
-            }
-            else if(countsPoint==0 || countsPoint % 2 == 0){
-                results[i]="OUTSIDE";
-            }
-            else {
-                results[i]="INSIDE";
-            }
+            lBoundary += abs(gcd(translatedB.R, translatedB.I));
+
+            area += ((conj(tempA)* tempB)).I;
+
         }
+        area=abs(area)/2;
+        lInside= (area+1) - (lBoundary/2);
         output();
     }
 
     void output()
     {
-        for (auto &result : results)
-        {
-            std::cout << result << '\n';
-        }
+
+        std::cout << lInside<<" "<< lBoundary  << '\n';
+
         std::cout << std::endl;
     }
 
