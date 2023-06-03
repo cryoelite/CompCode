@@ -79,7 +79,7 @@ using vb = std::vector<bool>; // vector<bool> is a special explicit definition o
 using vvb = std::vector<vb>;
 using ri = revit<vi::iterator>;
 using si = sk<int>;
-using CD = std::complex<long double>;
+using CD = std::complex<double>;
 using CI = std::complex<int>;
 using si = std::stack<int>;
 using pqii = std::priority_queue<pii>;
@@ -239,11 +239,7 @@ signed main()
     EasyBench eb{};
 #endif
 
-    //Algorithm::setup();
-    CI a{3,4};
-    CI b{2,5};
-    CI c{a*b};
-    std::cout<<c.R<<"\n";
+    Algorithm::setup();
 
 #ifdef LOCAL
     eb.showresult();
