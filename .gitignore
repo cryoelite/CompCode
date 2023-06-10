@@ -2,6 +2,9 @@
 input.txt
 output.txt
 
+#ccle cache
+.ccls-cache
+
 #Commented because I want the build configuration to be reused later.
 #.vscode/
 *.exe
