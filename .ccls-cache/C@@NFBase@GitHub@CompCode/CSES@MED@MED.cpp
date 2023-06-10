@@ -1,6 +1,6 @@
 // https://cses.fi/problemset/task/2194
 
-#define LOCAL
+//#define LOCAL
 
 #pragma region Headers
 
@@ -11,11 +11,12 @@
 #include <map>
 #include <stack>
 #include <complex>
+#include <set>
 #include <tuple>
 #include <vector>
 #include <queue>
 #include <string_view>
-#include "../Helpers/Easybench/Easybench.h"
+#include "../../Helpers/Easybench/Easybench.h"
 #else
 #include <bits/stdc++.h>
 #endif // LOCAL
@@ -61,12 +62,15 @@ void OUTPUT(T &...args)
 
 #pragma region Constants
 constexpr int mod10{10000007};
-constexpr int N{200005};
+constexpr int cN{200005}; //const N
 constexpr int INF{std::numeric_limits<int>::max()};
+constexpr int mINF{std::numeric_limits<int>::min()};
 #pragma endregion
 
 #pragma region Usings
 using vi = std::vector<int>;
+using si= std::set<int>;
+using sd= std::set<double>;
 using vvi = std::vector<vi>;
 using pivi = std::pair<int, vi>; // first is node's value and second is node's adjacent elements
 using pii = std::pair<int, int>;
@@ -80,27 +84,36 @@ using vmii = std::vector<mii>;
 using vb = std::vector<bool>; // vector<bool> is a special explicit definition of vector and behaves more like a bitset than a vector, also it is faster than array<bool> https://stackoverflow.com/a/55762317/13036358
 using vvb = std::vector<vb>;
 using ri = revit<vi::iterator>;
-using si = sk<int>;
+using ski = sk<int>;
 using CD = std::complex<double>;
 using CI = std::complex<int>; // DEPRECATED
-using si = std::stack<int>;
-using pqii = std::priority_queue<pii>;
+using pqd= std::priority_queue<double>;
+using pqi = std::priority_queue<int>;
+using pqpii = std::priority_queue<pii>;
 using vcd = std::vector<CD>;
+using vci = std::vector<CI>;
+using pcd= std::pair<CD,CD>;
+using pci = std::pair<CI, CI>;
+using vpcd= std::vector<pcd>;
+using vpci = std::vector<pci>;
 using vs = std::vector<std::string_view>;
 #pragma endregion
 
 #pragma region Variables
 int testCases{1};
 int n{};
-vcd points{};
-int result{};
+vci totalSegs;
 #pragma endregion
+
+
 
 namespace Algorithm
 {
     using namespace std;
     void start();
-    void output();
+    void output(int);
+    bool comparator(CI& , CI&);
+    int dist(CI&, CI);
 
     void setup()
     {
@@ -116,43 +129,66 @@ namespace Algorithm
         while (testCases-- > 0)
         {
             INPUT(n);
-
-            double arg1{};
-            double arg2{};
-
-            points = vcd(n);
-
-            for (int i{}; i < n; ++i)
+            totalSegs= vci(n,CI());
+            for (int i{}, arg1{},arg2{}; i < n; ++i)
             {
 
-                INPUT(arg1, arg2);
+                INPUT(arg1,arg2);
 
-                points[i] = CD{arg1, arg2};
+                totalSegs[i]= CI({arg1,arg2});
             }
+            sort(totalSegs.begin(), totalSegs.end(), comparator);
 
             start();
         }
     }
 
-   void start()
-    {
-        int minED{};
-        for(int i{};i<n;++i) {
-            CD & A {points[i]};
-
-            minED= min(minED, sqrt(()))
-
-        }
-        output();
+    bool comparator(CI& a, CI& b) {
+        return (a.R == b.R) ? a.I < b.I : a.R < b.R;
     }
 
-    void output()
+    int dist(CI& a, CI b) {
+
+        return ((a.R-b.R)*(a.R-b.R)) + ((a.I-b.I)*(a.I-b.I));
+
+    }
+   void start()
+    {
+        int d{INF};
+        std::set<pii> pp{}; //processed points
+        pp.insert(pii(totalSegs[0].I,totalSegs[0].R));
+
+        for(int i{1}, j{0}; i<n ;++i) {
+            CI& current{totalSegs[i]};
+            int ed= ceil(sqrt(d)); //euclidean distance converted to int
+            while(j < i && current.R-totalSegs[j].R > ed){ //current.R or x axis will be always greater or equal to the points before
+                                                           //because of how we sorted totalSegs
+                pp.erase({totalSegs[j].I,totalSegs[j].R});
+                j++;
+            }
+
+            auto itLB{pp.lower_bound({current.I - ed, 0})}; //iterator lower bound
+            auto itUB{pp.upper_bound({current.I + ed, 0})};
+            while(itLB != itUB)
+            {
+                d= min(d, dist(current, {itLB->second,itLB->first}));
+                itLB++;
+            }
+            pp.insert({current.I,current.R});
+        }
+
+        output(d);
+    }
+
+    void output(int result)
     {
 
         std::cout << result  << '\n';
 
         std::cout << std::endl;
     }
+
+
 
 }
 
