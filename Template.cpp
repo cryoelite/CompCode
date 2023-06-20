@@ -16,7 +16,7 @@
 #include <vector>
 #include <queue>
 #include <string_view>
-#include "../../Helpers/Easybench/Easybench.h"
+#include "../Helpers/Easybench/Easybench.h"
 #else
 #include <bits/stdc++.h>
 #endif // LOCAL
