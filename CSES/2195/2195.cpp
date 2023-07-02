@@ -1,4 +1,4 @@
-// https://cses.fi/problemset/task/2194
+// https://cses.fi/problemset/task/2195
 
 //#define LOCAL
 
@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <array>
 #include <complex>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -18,6 +19,7 @@
 #include <stdio.h>
 #include <string_view>
 #include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 #else
@@ -50,8 +52,8 @@ template <typename... T> void OUTPUT(T &...args) {
 #define revit std::reverse_iterator
 #define pb push_back
 #define sk std::stack
-#define R real()
-#define I imag()
+#define X real()
+#define Y imag()
 #define tiii std::tuple<int, int, int>
 #define mmi std::make_move_iterator
 #pragma endregion
@@ -110,14 +112,19 @@ using namespace std;
 #pragma region Variables
 int testCases{1};
 int n{};
-vci totalSegs;
+vci points{};
+vci upperHull{}; // don't need to be vci, can be just vi to hold the indices of
+                 // the point from points
+vci lowerHull{};
 #pragma endregion
 
 void start();
-void output(int);
+void output(int, int);
 void compute();
 void setup();
 void commonSetupAndCleanInit();
+int dirn(CI &, CI &, CI &); // direction
+int solveHull(vci &, std::function<bool(int)> &);
 
 bool comparator(CI &, CI &);
 int dist(CI &, CI);
@@ -139,6 +146,7 @@ void start() {
 #endif
   //    INPUT(testCases);
   while (testCases-- > 0) {
+    commonSetupAndCleanInit();
     setup();
     compute();
   }
@@ -147,57 +155,71 @@ void start() {
 void setup() {
 
   INPUT(n);
-  totalSegs = vci(n, CI());
+  points = vci(n, CI());
+  upperHull = vci();
+  lowerHull = vci();
   for (int i{}, arg1{}, arg2{}; i < n; ++i) {
 
     INPUT(arg1, arg2);
 
-    totalSegs[i] = CI({arg1, arg2});
+    points[i] = CI({arg1, arg2});
   }
-  sort(totalSegs.begin(), totalSegs.end(), comparator);
+  sort(points.begin(), points.end(), comparator);
 }
 
+// Andrew's Algorithm
 void compute() {
-  int d{INF};
-  std::set<pii> pp{}; // processed points
-  pp.insert(pii(totalSegs[0].I, totalSegs[0].R));
+  std::function<bool(int)> check{
+      [](int res) { return res > 0; }}; // point is to the left
 
-  for (int i{1}, j{0}; i < n; ++i) {
-    CI &current{totalSegs[i]};
-    int ed = ceil(sqrt(d)); // euclidean distance converted to int
-    while (j < i &&
-           current.R - totalSegs[j].R >
-               ed) { // current.R or x axis will be always greater or equal to
-      // the points before because of how we sorted totalSegs
-      pp.erase({totalSegs[j].I, totalSegs[j].R});
-      j++;
-    }
+  upperHull.pb(points[0]);
+  lowerHull.pb(points[0]);
 
-    auto itLB{pp.lower_bound({current.I - ed, 0})}; // iterator lower bound
-    auto itUB{pp.upper_bound({current.I + ed, 0})};
-    while (itLB != itUB) {
-      d = min(d, dist(current, {itLB->second, itLB->first}));
-      itLB++;
-    }
-    pp.insert({current.I, current.R});
-  }
+  int kUpper{solveHull(upperHull, check)};
 
-  output(d);
+  check = {[](int res) { return res < 0; }}; // point is to the right
+
+  int kLower{solveHull(lowerHull, check)};
+  output(kUpper, kLower);
 }
 
-void output(int result) {
+int solveHull(vci &results, std::function<bool(int)> &check) {
+  int k{1};
 
-  std::cout << result << '\n';
+  for (int i{1}; i < n; ++i) {
+
+    while (k >= 2 && check(dirn(results[k - 2], results[k - 1], points[i]))) {
+      results.pop_back();
+      --k;
+    }
+
+    results.pb(points[i]);
+    ++k;
+  }
+
+  return k;
+}
+
+void output(int kUpper, int kLower) {
+  std::cout << kUpper + kLower - 2 << "\n";
+  for (auto &point : upperHull) {
+    std::cout << point.X << " " << point.Y << "\n";
+  }
+  for (int i{1}; i < kLower - 1; ++i) {
+    std::cout << lowerHull[i].X << " " << lowerHull[i].Y << "\n";
+  }
 
   std::cout << std::endl;
 }
 
 void commonSetupAndCleanInit() {}
-bool comparator(CI &a, CI &b) { return (a.R == b.R) ? a.I < b.I : a.R < b.R; }
+bool comparator(CI &a, CI &b) { return (a.X == b.X) ? a.Y < b.Y : a.X < b.X; }
 
-int dist(CI &a, CI b) {
-
-  return ((a.R - b.R) * (a.R - b.R)) + ((a.I - b.I) * (a.I - b.I));
+int dirn(CI &x, CI &y, CI &p) {
+  CI a{p - x};
+  CI b{p - y};
+  int res{cast((conj(a) * b).Y)};
+  return res;
 }
 
 } // namespace Algorithm
