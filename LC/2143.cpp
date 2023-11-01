@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/longest-common-subsequence/https://leetcode.com/problems/longest-common-subsequence/
+// https://leetcode.com/problems/longest-common-subsequence/
 
 #define LOCAL
 
@@ -112,6 +112,10 @@ using namespace std;
 #pragma region Variables
 string s1;
 string s2;
+
+vvi memoTable;
+vvi dpTable;
+
 int result{};
 #pragma endregion
 
@@ -137,6 +141,7 @@ void start() {
   freopen64("output.txt", "w", stdout);
 #endif
   INPUT(testCases);
+  cin.ignore(intmax, '\n');
 #endif
 
   while (testCases-- > 0) {
@@ -148,19 +153,65 @@ void start() {
 }
 void setup() {
 #ifdef LOCAL
-  cin.ignore(intmax, '\n');
   getline(cin, s1);
   getline(cin, s2);
 #else
 
 #endif
+  memoTable = vvi(s1.size(), vi(s2.size(), -1));
+  dpTable = vvi(s1.size() + 1, vi(s2.size() + 1, 0));
 }
 
 // Resetting state variables before they are used
 void resetState() { result = 0; }
 
-// Trie
-void compute() {}
+// Bottom up, (size1,size2), Normal Recursion based approach, TLE
+int lcs(int i, int j) {
+  if (i < 0 || j < 0) {
+    return 0;
+  }
+
+  if (s1[i] == s2[j]) {
+    return 1 + lcs(i - 1, j - 1);
+  } else {
+    return max(lcs(i, j - 1), lcs(i - 1, j));
+  }
+}
+
+// Bottom up, Recursion+Memoized, (size1,size2), a bit slower growth in TC
+int lcsMemoized(int i, int j) {
+  if (i < 0 || j < 0) {
+    return 0;
+  }
+
+  if (memoTable[i][j] != -1) {
+    return memoTable[i][j];
+  }
+
+  if (s1[i] == s2[j]) {
+    memoTable[i][j] = 1 + lcsMemoized(i - 1, j - 1);
+  } else {
+    memoTable[i][j] = max(lcsMemoized(i, j - 1), lcsMemoized(i - 1, j));
+  }
+  return memoTable[i][j];
+}
+// Top to Bottom, 1 indexed, DP + Iterative + Memoized, O(nm)
+int lcsDP() {
+  for (int i{1}; i <= cast(s1.size()); ++i) {
+    for (int j{1}; j <= cast(s2.size()); ++j) {
+      dpTable[i][j] = s1[i - 1] == s2[j - 1]
+                          ? 1 + dpTable[i - 1][j - 1]
+                          : max(dpTable[i][j - 1], dpTable[i - 1][j]);
+    }
+  }
+  return dpTable[s1.size()][s2.size()];
+}
+
+void compute() {
+  // result = lcs(s1.size() - 1, s2.size() - 1);
+  // result = lcsMemoized(s1.size() - 1, s2.size() - 1);
+  result = lcsDP();
+}
 
 void output() { cout << result << "\n"; }
 
@@ -180,6 +231,7 @@ public:
   int longestCommonSubsequence(string text1, string text2) { STARTLC; }
 };
 } // namespace
+
 #undef int
 
 #ifdef LOCAL

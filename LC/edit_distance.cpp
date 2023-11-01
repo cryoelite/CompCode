@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/longest-common-subsequence/https://leetcode.com/problems/longest-common-subsequence/
+// https://leetcode.com/problems/edit-distance/
 
 #define LOCAL
 
@@ -59,7 +59,7 @@ template <typename... T> void OUTPUT(T &...args) {
 #pragma endregion
 
 #pragma region Constants
-constexpr int mod10{10000007};
+constexpr int mod10_e9_7{1000000007};
 constexpr int cN{200005}; // const N
 constexpr int INF{std::numeric_limits<int>::max()};
 constexpr int mINF{std::numeric_limits<int>::min()};
@@ -112,11 +112,14 @@ using namespace std;
 #pragma region Variables
 string s1;
 string s2;
+int size_s1;
+int size_s2;
+vvi edit_MemoTable{};
+
 int result{};
 #pragma endregion
 
 void start();
-void resetState();
 void setup();
 void compute();
 void output();
@@ -126,7 +129,7 @@ void start() {
 
   IOS;
 #ifdef LOCAL
-#ifdef freopen_s // windows
+#ifndef freopen_s // windows
   FILE *inpStream;
   FILE *outStream;
 
@@ -137,30 +140,50 @@ void start() {
   freopen64("output.txt", "w", stdout);
 #endif
   INPUT(testCases);
+  cin.ignore(intmax, '\n');
 #endif
 
   while (testCases-- > 0) {
     setup();
-    resetState();
     compute();
     output();
   }
 }
 void setup() {
 #ifdef LOCAL
-  cin.ignore(intmax, '\n');
   getline(cin, s1);
   getline(cin, s2);
 #else
 
 #endif
+  result = 0;
+  size_s1 = cast(s1.size());
+  size_s2 = cast(s2.size());
+  edit_MemoTable = vvi(size_s1, vi(size_s2, -1));
 }
 
-// Resetting state variables before they are used
-void resetState() { result = 0; }
+inline int cost(int a, int b) { return cast(s1[a] != s2[b]); }
 
-// Trie
-void compute() {}
+int edit(int a, int b) {
+  if (min(a, b) < 0) {
+    return max(a, b) + 1;
+  }
+
+  if (edit_MemoTable[a - 1][b] == -1) {
+    edit_MemoTable[a - 1][b] = edit(a - 1, b) + 1;
+  }
+  if (edit_MemoTable[a][b - 1] == -1) {
+    edit_MemoTable[a][b - 1] = edit(a, b - 1) + 1;
+  }
+  if (edit_MemoTable[a - 1][b - 1] == -1) {
+    edit_MemoTable[a - 1][b - 1] = edit(a - 1, b - 1) + cost(a, b);
+  }
+
+  int min_a_or_b{min(edit_MemoTable[a - 1][b], edit_MemoTable[a][b - 1])};
+  return min(min_a_or_b, edit_MemoTable[a - 1][b - 1]);
+}
+
+void compute() { result = edit(size_s1 - 1, size_s2 - 1); }
 
 void output() { cout << result << "\n"; }
 
@@ -177,9 +200,10 @@ namespace {
 using namespace std;
 class Solution {
 public:
-  int longestCommonSubsequence(string text1, string text2) { STARTLC; }
+  int minDistance(string text1, string text2) { STARTLC; }
 };
 } // namespace
+
 #undef int
 
 #ifdef LOCAL

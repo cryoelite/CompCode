@@ -1,11 +1,11 @@
-// https://leetcode.com/problems/longest-common-subsequence/https://leetcode.com/problems/longest-common-subsequence/
+// https://cses.fi/problemset/task/1731
 
-#define LOCAL
+//#define LOCAL
 
 #pragma region Headers
 
 #ifdef LOCAL
-#include "../Helpers/Easybench/Easybench.h"
+#include "../../Helpers/Easybench/Easybench.h"
 #include <algorithm>
 #include <array>
 #include <complex>
@@ -59,8 +59,9 @@ template <typename... T> void OUTPUT(T &...args) {
 #pragma endregion
 
 #pragma region Constants
-constexpr int mod10{10000007};
-constexpr int cN{200005}; // const N
+constexpr int mod10_e9_7{1000000007};
+constexpr int cN{200005};   // const N
+constexpr int cBN{1000005}; // Bigger N
 constexpr int INF{std::numeric_limits<int>::max()};
 constexpr int mINF{std::numeric_limits<int>::min()};
 #pragma endregion
@@ -110,13 +111,13 @@ namespace Algorithm {
 using namespace std;
 
 #pragma region Variables
-string s1;
-string s2;
-int result{};
+int testCases{1};
+  int n{};
+  vi results{};
+
 #pragma endregion
 
 void start();
-void resetState();
 void setup();
 void compute();
 void output();
@@ -136,61 +137,53 @@ void start() {
   freopen64("input.txt", "r", stdin);
   freopen64("output.txt", "w", stdout);
 #endif
-  INPUT(testCases);
+  // INPUT(testCases);
+  // cin.ignore(intmax, '\n');
 #endif
 
   while (testCases-- > 0) {
     setup();
-    resetState();
     compute();
     output();
   }
 }
 void setup() {
-#ifdef LOCAL
-  cin.ignore(intmax, '\n');
-  getline(cin, s1);
-  getline(cin, s2);
-#else
-
-#endif
+  INPUT(n);
+  results= vi({n});
 }
 
-// Resetting state variables before they are used
-void resetState() { result = 0; }
+void compute() {
+  while(n>1){
 
-// Trie
-void compute() {}
+    if(n%2==0) {
+      n/=2;
+    } else {
+      n=(n*3)+1;
+    }
+        results.pb(n);
+  }
+}
 
-void output() { cout << result << "\n"; }
+void output() {
+  for(int& elem: results) {
+    cout<<elem << " ";
+  }
+  cout<< "\n";
+  }
 
 } // namespace Algorithm
-#define STARTLC                                                                \
-  Algorithm::s1 = text1;                                                       \
-  Algorithm::s2 = text2;                                                       \
-  Algorithm::start();                                                          \
-  return Algorithm::result;
-
+  //
 #define STARTLOCAL Algorithm::start();
 
-namespace {
-using namespace std;
-class Solution {
-public:
-  int longestCommonSubsequence(string text1, string text2) { STARTLC; }
-};
-} // namespace
-#undef int
-
-#ifdef LOCAL
 signed main() {
-
+#ifdef LOCAL
   EasyBench eb{};
+#endif
 
   STARTLOCAL;
 
+#ifdef LOCAL
   eb.showresult();
-
+#endif
   return 0;
 }
-#endif
