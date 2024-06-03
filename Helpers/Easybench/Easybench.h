@@ -3,7 +3,6 @@
 // Header Guard
 
 #include <chrono>
-#include <string_view>
 class EasyBench
 {
     std::chrono::steady_clock::time_point m_start;
