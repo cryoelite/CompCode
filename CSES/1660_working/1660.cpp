@@ -1,7 +1,7 @@
 // https://cses.fi/problemset/task/1660
 
-// Local Mode (for local tests, take input from files), or comment this to be in Submission mode (take input from CLI)
-// #define LOCAL
+// Local Mode (for local tests), or comment this to be in Submission mode
+#define LOCAL
 
 // Headers
 #include <algorithm>
@@ -114,10 +114,9 @@ namespace Definitions
 
 }
 
-namespace SetupEnvironment
+namespace Signatures
 {
   using namespace Definitions;
-
   // Function Bodies
   void setupIO()
   {
@@ -147,38 +146,64 @@ namespace SetupEnvironment
 namespace Solution
 {
   using namespace Definitions;
-  using namespace SetupEnvironment;
+  using namespace Signatures;
   using namespace std;
-  void start();
-  void initialize();
-  void compute();
-  void output();
 
   int testCases{1};
 
   int n{};
   int x{};
   vi arr{};
-  int result{2};
+  int result{};
 
   void start()
   {
-    setupIO();
     // INPUT(testCases);
     while (testCases-- > 0)
     {
-      initialize();
+      setup();
       compute();
       output();
     }
   }
 
-  void initialize()
+  void setup()
   {
+    cin >> n;
+    cin >> x;
+    arr = vi(n, 0);
+
+    for (int i{}, arg{}; i < n; ++i)
+    {
+      cin >> arg;
+      arr[i] = arg;
+    }
   }
 
   void compute()
   {
+    int l{0};
+    int r{0};
+    int sum{0};
+    while (l <= r && r < n)
+    {
+      if (sum > x)
+      {
+        sum -= arr[l];
+        ++l;
+      }
+      if (sum < x)
+      {
+        ++r;
+        sum += arr[r];
+      }
+      if (sum == x)
+      {
+        ++result;
+        sum -= arr[l];
+        ++l;
+      }
+    }
   }
 
   void output()

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "unordered_set": "cpp",
+        "unordered_map": "cpp",
+        "xiosbase": "cpp",
+        "tuple": "cpp"
+    }
+}
